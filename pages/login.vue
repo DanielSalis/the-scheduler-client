@@ -12,7 +12,6 @@
         <v-text-field
           v-model="email"
           solo
-          :rules="emailRules"
           label="email"
           required
         />
@@ -20,7 +19,6 @@
         <v-text-field
           v-model="password"
           solo
-          :rules="passwordRules"
           label="senha"
           required
         />
@@ -29,7 +27,7 @@
           block
           color="primary"
           class="mr-4"
-          @click="validate"
+          @click="loginUser"
         >
           Entrar
         </v-btn>
@@ -39,17 +37,33 @@
 </template>
 
 <script>
-export default {
-  name: 'LoginPage',
-  layout: 'login',
-  data () {
-    return {
-      error: false,
-      email: null,
-      password: null
-    }
+  export default {
+    name: 'LoginPage',
+    layout: 'login',
+    data () {
+      return {
+        valid: true,
+        error: false,
+        email: null,
+        password: null,
+        dataApi: null
+      }
+    },
+    methods: {
+      async loginUser() {
+        try {
+          const userData = {
+            email:this.email,
+            password: this.password,
+          }
+          this.dataApi = await this.$axios.post('/user/auth', userData)
+          console.log(this.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   }
-}
 </script>
 
 <style lang="scss" scoped>
