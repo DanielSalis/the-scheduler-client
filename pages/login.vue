@@ -56,8 +56,8 @@
             email:this.email,
             password: this.password,
           }
-          this.dataApi = await this.$axios.post('/user/auth', userData)
-          console.log(this.data);
+          const response = await this.$axios.post('/user/auth', userData)
+          console.log(response);
         } catch (error) {
           console.log(error);
         }
