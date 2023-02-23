@@ -37,6 +37,7 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from "vuex";
   export default {
     name: 'LoginPage',
     layout: 'login',
@@ -49,7 +50,12 @@
         dataApi: null
       }
     },
+    computed: {
+      ...mapGetters('auth',['getAuthData'])
+    },
     methods: {
+      ...mapActions("auth",['setAuthData']),
+
       async loginUser() {
         try {
           const userData = {
@@ -57,7 +63,8 @@
             password: this.password,
           }
           const response = await this.$axios.post('/user/auth', userData)
-          console.log(response);
+          debugger;
+          if(response) this.setAuthData(response.data)
         } catch (error) {
           console.log(error);
         }
