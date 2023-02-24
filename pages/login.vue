@@ -63,7 +63,6 @@
             password: this.password,
           }
           const response = await this.$axios.post('/user/auth', userData)
-          debugger;
           if(response) this.setAuthData(response.data)
         } catch (error) {
           console.log(error);
