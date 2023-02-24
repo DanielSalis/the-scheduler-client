@@ -7,8 +7,18 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   export default {
-    name: 'DefaultLayout'
+    name: 'DefaultLayout',
+    beforeMount() {
+      const auth = this.getAuthData()
+      if(Object.keys(auth).length === 0){
+        this.$router.push('/login')
+      }
+    },
+    methods: {
+      ...mapGetters('auth', ['getAuthData'])
+    },
   }
 </script>
 
