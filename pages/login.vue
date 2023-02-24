@@ -18,6 +18,7 @@
 
         <v-text-field
           v-model="password"
+          type="password"
           solo
           label="senha"
           required
