@@ -1,5 +1,9 @@
 <template>
-  <div class="admin-page">
+  <div
+    class="admin-page"
+    tabindex="0"
+    @keyup.enter="loginUser"
+  >
     <v-card
       rounded
       class="admin-page__content"
@@ -8,6 +12,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent="loginUser"
       >
         <v-text-field
           v-model="email"
@@ -28,7 +33,8 @@
           block
           color="primary"
           class="mr-4"
-          @click="loginUser"
+          validate-on="submit"
+          type="submit"
         >
           Entrar
         </v-btn>
