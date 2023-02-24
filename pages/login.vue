@@ -1,5 +1,9 @@
 <template>
-  <div class="admin-page">
+  <div
+    class="admin-page"
+    tabindex="0"
+    @keyup.enter="loginUser"
+  >
     <v-card
       rounded
       class="admin-page__content"
@@ -8,6 +12,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent="loginUser"
       >
         <v-text-field
           v-model="email"
@@ -18,6 +23,7 @@
 
         <v-text-field
           v-model="password"
+          type="password"
           solo
           label="senha"
           required
@@ -27,7 +33,8 @@
           block
           color="primary"
           class="mr-4"
-          @click="loginUser"
+          validate-on="submit"
+          type="submit"
         >
           Entrar
         </v-btn>
@@ -37,6 +44,7 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from "vuex";
   export default {
     name: 'LoginPage',
     layout: 'login',
@@ -49,15 +57,23 @@
         dataApi: null
       }
     },
+    computed: {
+      ...mapGetters('auth',['getAuthData'])
+    },
     methods: {
+      ...mapActions("auth",['setAuthData']),
+
       async loginUser() {
         try {
           const userData = {
             email:this.email,
             password: this.password,
           }
-          this.dataApi = await this.$axios.post('/user/auth', userData)
-          console.log(this.data);
+          const response = await this.$axios.post('/user/auth', userData)
+          if(response) {
+            this.setAuthData(response.data)
+            this.$router.push('/')
+          }
         } catch (error) {
           console.log(error);
         }
