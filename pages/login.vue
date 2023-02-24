@@ -64,7 +64,10 @@
             password: this.password,
           }
           const response = await this.$axios.post('/user/auth', userData)
-          if(response) this.setAuthData(response.data)
+          if(response) {
+            this.setAuthData(response.data)
+            this.$router.push('/')
+          }
         } catch (error) {
           console.log(error);
         }
