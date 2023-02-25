@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from "vuex";
+  import {mapActions} from "vuex";
   export default {
     name: 'LoginPage',
     layout: 'login',
@@ -57,9 +57,6 @@
         dataApi: null
       }
     },
-    computed: {
-      ...mapGetters('auth',['getAuthData'])
-    },
     methods: {
       ...mapActions("auth",['setAuthData']),
 
@@ -71,7 +68,10 @@
           }
           const response = await this.$axios.post('/user/auth', userData)
           if(response) {
-            this.setAuthData(response.data)
+            this.$cookies.set('auth', response.data, {
+              path: '/',
+              maxAge: 60 * 60 * 24 * 1
+            })
             this.$router.push('/')
           }
         } catch (error) {
