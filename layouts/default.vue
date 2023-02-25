@@ -7,17 +7,18 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions } from 'vuex';
   export default {
     name: 'DefaultLayout',
     beforeMount() {
-      const auth = this.getAuthData()
-      if(Object.keys(auth).length === 0){
+      const auth = this.$cookies.get('auth')
+      if(!auth){
         this.$router.push('/login')
       }
+      this.setAuthData(auth)
     },
     methods: {
-      ...mapGetters('auth', ['getAuthData'])
+      ...mapActions("auth",['setAuthData']),
     },
   }
 </script>
