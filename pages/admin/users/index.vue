@@ -105,6 +105,7 @@
             value: item
           }
         })
+        headersData.push({ text: 'ACTIONS', value: 'actions', sortable: false },)
         return headersData
       }
     }
