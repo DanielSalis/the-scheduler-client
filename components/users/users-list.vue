@@ -39,6 +39,61 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      persistent
+      width="1024"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">User Profile</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="Legal first name*"
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="Legal middle name"
+                  hint="example of helper text only on focus"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="secondary"
+            variant="text"
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="primary"
+            variant="text"
+            @click="dialog = false"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 <script>
@@ -56,12 +111,14 @@
     },
     data() {
       return {
-        search: ''
+        search: '',
+        dialog: false
       }
     },
     methods: {
       editItem () {
-        this.$router.push('/')
+        // this.$router.push('/')
+        this.dialog = true
       },
 
       deleteItem () {
