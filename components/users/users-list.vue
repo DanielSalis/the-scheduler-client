@@ -44,7 +44,21 @@
       persistent
       width="1024"
     >
-      <v-card>
+      <v-card
+        v-if="dialogLoading"
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          Carregando usuário
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          />
+        </v-card-text>
+      </v-card>
+      <v-card v-if="!dialogLoading && user">
         <v-card-title>
           <span class="text-h5">Editar usuário</span>
         </v-card-title>
@@ -59,6 +73,8 @@
                 <v-text-field
                   label="Nome"
                   required
+                  :value="user.name"
+                  hint="Nome do usuário"
                 />
               </v-col>
               <v-col
@@ -67,8 +83,32 @@
                 md="4"
               >
                 <v-text-field
-                  label="email"
-                  hint="example of helper text only on focus"
+                  label="Email"
+                  :value="user.email"
+                  hint="Email do usuário"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="Código"
+                  :value="user.code"
+                  hint="Código do usuário"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="12"
+              >
+                <v-text-field
+                  label="Id"
+                  :value="user.id"
+                  disabled
+                  hint=""
                 />
               </v-col>
             </v-row>
@@ -112,13 +152,28 @@
     data() {
       return {
         search: '',
-        dialog: false
+        dialog: false,
+        dialogLoading: false,
+        user: null
       }
     },
     methods: {
-      editItem () {
-        // this.$router.push('/')
+      async editItem (user) {
         this.dialog = true
+        this.dialogLoading = true
+
+        const response = await this.$axios.get(`/user/getById/${user.id}`)
+
+        if(response){
+          setTimeout(()=>{
+            this.user = response.data
+            this.dialogLoading = false
+            this.dialog = true
+          },1000)
+        }
+        else{
+          alert("erro ao carregar usuário");
+        }
       },
 
       deleteItem () {
