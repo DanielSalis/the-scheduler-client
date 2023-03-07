@@ -111,6 +111,18 @@
                   hint=""
                 />
               </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="12"
+              >
+                <v-text-field
+                  label="Senha"
+                  :value="newUserPassword"
+                  hint="Editar somente quando necessário"
+                  type="password"
+                />
+              </v-col>
             </v-row>
           </v-container>
           <small>*campos obrigatórios</small>
@@ -154,7 +166,8 @@
         search: '',
         dialog: false,
         dialogLoading: false,
-        user: null
+        user: null,
+        newUserPassword: ''
       }
     },
     methods: {
