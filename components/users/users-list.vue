@@ -181,7 +181,6 @@
           setTimeout(()=>{
             this.user = response.data
             this.dialogLoading = false
-            this.dialog = true
           },1000)
         }
         else{
