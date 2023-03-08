@@ -71,9 +71,9 @@
                 md="4"
               >
                 <v-text-field
+                  v-model="user.name"
                   label="Nome"
                   required
-                  :value="user.name"
                   hint="Nome do usuário"
                 />
               </v-col>
@@ -83,8 +83,8 @@
                 md="4"
               >
                 <v-text-field
+                  v-model="user.email"
                   label="Email"
-                  :value="user.email"
                   hint="Email do usuário"
                 />
               </v-col>
@@ -94,8 +94,8 @@
                 md="4"
               >
                 <v-text-field
+                  v-model="user.code"
                   label="Código"
-                  :value="user.code"
                   hint="Código do usuário"
                 />
               </v-col>
@@ -105,8 +105,8 @@
                 md="12"
               >
                 <v-text-field
+                  v-model="user.id"
                   label="Id"
-                  :value="user.id"
                   disabled
                   hint=""
                 />
@@ -117,8 +117,8 @@
                 md="12"
               >
                 <v-text-field
+                  v-model="newUserPassword"
                   label="Senha"
-                  :value="newUserPassword"
                   hint="Editar somente quando necessário"
                   type="password"
                 />
@@ -139,7 +139,7 @@
           <v-btn
             color="primary"
             variant="text"
-            @click="dialog = false"
+            @click="saveNewUserInfo()"
           >
             Salvar
           </v-btn>
@@ -191,6 +191,20 @@
       deleteItem () {
         confirm("Certeza que deseja deletar?")
       },
+
+      async saveNewUserInfo(){
+        try{
+          this.user.password = this.newUserPassword
+          const response = await this.$axios.put("/user/updateById", this.user)
+          return (
+            <v-alert
+              type="success"
+            ></v-alert>
+          )
+        }catch(e){
+          console.log(e);
+        }
+      }
     },
   }
 </script>
