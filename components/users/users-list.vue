@@ -194,7 +194,9 @@
 
       async saveNewUserInfo(){
         try{
-          this.user.password = this.newUserPassword
+          if(this.newUserPassword.length > 0){
+            this.user.password = this.newUserPassword
+          }
           await this.$axios.put("/user/updateById", this.user)
           await alert("Usuário atualizado com sucesso")
           this.$router.go()
