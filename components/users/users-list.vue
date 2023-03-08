@@ -188,8 +188,14 @@
         }
       },
 
-      deleteItem () {
-        confirm("Certeza que deseja deletar?")
+      async deleteItem (item) {
+        if(confirm("Certeza que deseja deletar?")){
+          const response = await this.$axios.delete(`/user/deleteById/${item.id}`)
+          if (response.data.id) {
+            alert("Usuário deletado com sucesso")
+            this.$router.go()
+          }
+        }
       },
 
       async saveNewUserInfo(){
