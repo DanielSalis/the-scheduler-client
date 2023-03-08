@@ -167,7 +167,8 @@
         dialog: false,
         dialogLoading: false,
         user: null,
-        newUserPassword: ''
+        newUserPassword: '',
+        alert: {}
       }
     },
     methods: {
@@ -192,15 +193,16 @@
         confirm("Certeza que deseja deletar?")
       },
 
+      fireAlert(type, message){
+        this.alert.type = type,
+        this.alert.message = message
+      },
+
       async saveNewUserInfo(){
         try{
           this.user.password = this.newUserPassword
-          const response = await this.$axios.put("/user/updateById", this.user)
-          return (
-            <v-alert
-              type="success"
-            ></v-alert>
-          )
+          await this.$axios.put("/user/updateById", this.user)
+          this.fireAlert("success", "Usuário atualizado com sucesso")
         }catch(e){
           console.log(e);
         }
