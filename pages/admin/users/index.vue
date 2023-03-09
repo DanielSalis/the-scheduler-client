@@ -20,12 +20,12 @@
           </v-icon>
           Adicionar
         </v-tab>
-        <v-tab>
+        <!-- <v-tab>
           <v-icon left>
             mdi-download
           </v-icon>
           Exportar
-        </v-tab>
+        </v-tab> -->
 
         <v-tab-item v-if="usersData">
           <UsersList
