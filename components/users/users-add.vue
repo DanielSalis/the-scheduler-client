@@ -3,12 +3,12 @@
     <v-card-text>
       <v-form
         ref="form"
-        v-model="valid"
         lazy-validation
         @submit.prevent="addUser"
       >
         <v-text-field
           v-model="userInfo.name"
+          :rules="nameRules"
           solo
           label="Nome"
           required
@@ -16,6 +16,7 @@
 
         <v-text-field
           v-model="userInfo.email"
+          :rules="emailRules"
           solo
           label="Email"
           required
@@ -31,13 +32,17 @@
 
         <v-select
           v-model="userInfo.userRoleId"
-          :items="['admin', 'enfermeiro', 'tecnico']"
+          :items="userRoleOptions"
+          :rules="userRoleRule"
+          item-text="name"
+          item-value="id"
           label="Tipo de Usuário"
           solo
         />
 
         <v-text-field
           v-model="userInfo.password"
+          :rules="passwordRules"
           type="password"
           solo
           label="Senha"
@@ -69,12 +74,42 @@
           password: '',
           code: '',
           userRoleId: null
-        }
+        },
+        userRoleOptions: [],
+        nameRules: [
+          v => !!v || 'Nome é necessário',
+          v => v.length >= 10 || 'Nome precisa ter no mínimo 10 caracteres',
+        ],
+        emailRules: [
+          v => !!v || 'Email é necessário',
+          v => /.+@.+/.test(v) || 'Email precisa ser válido',
+        ],
+        passwordRules: [
+          v => !!v || 'Senha é necessária',
+        ],
+        userRoleRule: [
+          v => !!v || 'Função é necessária',
+        ],
+      }
+    },
+    async beforeMount() {
+      try{
+        const response = await this.$axios.get("/userRole/getAll");
+        this.userRoleOptions = response.data
+      }catch(error){
+        console.log(error);
+        throw new Error(error);
       }
     },
     methods: {
-      addUser(){
-        alert(JSON.stringify(this.userInfo))
+      async addUser(){
+        await this.$axios.post("/user/create", this.userInfo).then((response)=>{
+          console.log(response);
+          alert("Usuário criado com sucesso!")
+          this.$router.go('/admin/users')
+        }).catch(error=>{
+          alert(`Erro ao criar usuário: ${error.response.data.error}`)
+        })
       }
     },
   }
