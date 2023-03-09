@@ -10,6 +10,7 @@
       />
     </v-card-title>
     <v-data-table
+      :search="search"
       :headers="headers"
       :items="users"
       sort-by="calories"
