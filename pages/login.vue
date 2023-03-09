@@ -57,6 +57,9 @@
         dataApi: null
       }
     },
+    beforeMount() {
+      this.$cookies.removeAll()
+    },
     methods: {
       ...mapActions("auth",['setAuthData']),
 
