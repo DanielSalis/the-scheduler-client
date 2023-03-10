@@ -1,6 +1,6 @@
 <template>
   <gContainer class="home-page__container">
-    <div class="text-h5 ml-3">
+    <div>
       <div class="text-h5 ml-3">
         Gerenciamento
       </div>
