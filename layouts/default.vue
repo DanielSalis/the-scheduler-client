@@ -1,5 +1,48 @@
 <template>
   <v-app class="default-layout">
+    <div class="default-layout__navigation">
+      <v-app-bar
+        color="primary"
+        dark
+      >
+        <v-toolbar-title>Bem vindo, {{ userName }}</v-toolbar-title>
+
+        <v-spacer />
+
+        <v-app-bar-nav-icon @click="drawer = true" />
+      </v-app-bar>
+
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        temporary
+        right
+      >
+        <v-list
+          nav
+          dense
+        >
+          <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Account</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-navigation-drawer>
+    </div>
     <main class="default-layout__content">
       <Nuxt />
     </main>
@@ -7,9 +50,20 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
+
   export default {
     name: 'DefaultLayout',
+    data: () => ({
+      drawer: false,
+      group: null,
+    }),
+    computed:{
+      ...mapGetters("auth", ['getAuthData']),
+      userName(){
+        return this.getAuthData.name
+      }
+    },
     beforeMount() {
       const auth = this.$cookies.get('auth')
       if(!auth){
