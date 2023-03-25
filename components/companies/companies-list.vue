@@ -168,7 +168,8 @@
       async deleteItem (item) {
         if(confirm("Certeza que deseja deletar?")){
           const response = await this.$axios.delete(`/company/deleteById/${item.id}`)
-          if (response.data.id) {
+          const {company} = response.data
+          if (company.id) {
             alert("Rede deletada com sucesso")
             this.$router.go()
           }
