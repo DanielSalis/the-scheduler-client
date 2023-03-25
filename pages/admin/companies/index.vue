@@ -22,7 +22,11 @@
         </v-tab>
 
         <v-tab-item>
-          <p>Listar</p>
+          <companiesList
+            v-if="companiesData"
+            :headers="headers"
+            :companies="companiesData"
+          />
         </v-tab-item>
         <v-tab-item>
           <p>Aba de adicionar</p>
@@ -34,10 +38,37 @@
 
 <script>
   import gContainer from '~/components/g-container.vue';
+  import companiesList from '~/components/companies/companies-list.vue';
   export default {
     name: "AdminCompaniesPage",
     components: {
-      gContainer
+      gContainer,
+      companiesList,
+    },
+    layout: 'admin',
+    data () {
+      return {
+        search: '',
+        companiesData: null
+      }
+    },
+    async fetch(){
+      const response = await this.$axios.get('/company/getAll')
+      this.companiesData = response.data
+    },
+    computed: {
+      headers(){
+        debugger
+        const headerKeys = Object.keys(this.companiesData[0])
+        const headersData = headerKeys.map((item)=>{
+          return {
+            text: item.toUpperCase(),
+            value: item
+          }
+        })
+        headersData.push({ text: 'ACTIONS', value: 'actions', sortable: false },)
+        return headersData
+      }
     }
   }
 </script>
