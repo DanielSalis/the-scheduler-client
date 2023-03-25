@@ -29,7 +29,7 @@
           />
         </v-tab-item>
         <v-tab-item>
-          <p>Aba de adicionar</p>
+          <companiesAdd />
         </v-tab-item>
       </v-tabs>
     </v-card>
@@ -39,11 +39,13 @@
 <script>
   import gContainer from '~/components/g-container.vue';
   import companiesList from '~/components/companies/companies-list.vue';
+  import companiesAdd from '~/components/companies/companies-add.vue';
   export default {
     name: "AdminCompaniesPage",
     components: {
       gContainer,
       companiesList,
+      companiesAdd,
     },
     layout: 'admin',
     data () {
@@ -58,7 +60,6 @@
     },
     computed: {
       headers(){
-        debugger
         const headerKeys = Object.keys(this.companiesData[0])
         const headersData = headerKeys.map((item)=>{
           return {
