@@ -69,6 +69,11 @@
           route:'/admin/hospitals',
         },
         {
+          icon:'mdi-hospital-box',
+          name:'Unidades',
+          route:'/admin/unities',
+        },
+        {
           icon:'mdi-exit-to-app',
           name:'Sair',
           route:'/login',
