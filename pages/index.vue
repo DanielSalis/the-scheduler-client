@@ -67,9 +67,14 @@
                 route:"/admin/users"
               },
               {
-                name: 'Unidades',
-                description: 'Crie / Edite / Delete / Atualize Unidades',
-                route:"/admin/unities"
+                name: 'Redes Hospitalares',
+                description: 'Crie / Edite / Delete / Atualize Redes',
+                route:"/admin/companies"
+              },
+              {
+                name: 'Hospitais',
+                description: 'Crie / Edite / Delete / Atualize Hospitais',
+                route:"/admin/hospitals"
               }
             ]
           },

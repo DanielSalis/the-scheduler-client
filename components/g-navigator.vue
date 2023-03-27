@@ -59,6 +59,16 @@
           route:'/admin/users',
         },
         {
+          icon:'mdi-domain',
+          name:'Redes',
+          route:'/admin/companies',
+        },
+        {
+          icon:'mdi-hospital-building',
+          name:'Hospitais',
+          route:'/admin/hospitals',
+        },
+        {
           icon:'mdi-exit-to-app',
           name:'Sair',
           route:'/login',
