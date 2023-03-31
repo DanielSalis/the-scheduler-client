@@ -74,6 +74,11 @@
           route:'/admin/unities',
         },
         {
+          icon:'mdi-bed',
+          name:'Leitos',
+          route:'/admin/beds',
+        },
+        {
           icon:'mdi-exit-to-app',
           name:'Sair',
           route:'/login',

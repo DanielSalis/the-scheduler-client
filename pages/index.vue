@@ -80,6 +80,11 @@
                 name: 'Unidades',
                 description: 'Crie / Edite / Delete / Atualize Unidades',
                 route:"/admin/unities"
+              },
+              {
+                name: 'Leitos',
+                description: 'Crie / Edite / Delete / Atualize Leitos',
+                route:"/admin/beds"
               }
             ]
           },
