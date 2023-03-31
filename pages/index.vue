@@ -75,6 +75,11 @@
                 name: 'Hospitais',
                 description: 'Crie / Edite / Delete / Atualize Hospitais',
                 route:"/admin/hospitals"
+              },
+              {
+                name: 'Unidades',
+                description: 'Crie / Edite / Delete / Atualize Unidades',
+                route:"/admin/unities"
               }
             ]
           },
