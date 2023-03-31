@@ -30,7 +30,11 @@
           />
         </v-tab-item>
         <v-tab-item>
-          <bedsAdd />
+          <bedsAdd
+            v-if="unitiesData && classificationData"
+            :unities="unitiesData"
+            :classifications="classificationData"
+          />
         </v-tab-item>
       </v-tabs>
     </v-card>
@@ -53,7 +57,8 @@
       return {
         search: '',
         bedData: null,
-        classificationData: null
+        classificationData: null,
+        unitiesData: null
       }
     },
     async fetch(){
@@ -62,6 +67,9 @@
 
       const classificationResponse = await this.$axios.get('/classification/getAll')
       this.classificationData = classificationResponse.data
+
+      const unitiesResponse = await this.$axios.get('/unity/getAll')
+      this.unitiesData = unitiesResponse.data
     },
     computed: {
       headers(){
