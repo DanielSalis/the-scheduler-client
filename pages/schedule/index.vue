@@ -58,7 +58,6 @@
     },
     methods: {
       changeStep(event){
-        console.log(event === 'next');
         switch (event) {
         case 'next':
           this.e1 ++
