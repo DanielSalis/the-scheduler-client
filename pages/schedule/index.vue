@@ -23,17 +23,20 @@
 
         <v-divider />
 
-        <v-stepper-step step="3">
+        <v-stepper-step
+          step="3"
+          :complete="e1 > 3"
+        >
           Name of step 3
         </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
-        <Step01 @change="nextStep()" />
+        <Step01 @change="changeStep($event)" />
 
-        <Step02 @change="nextStep()" />
+        <Step02 @change="changeStep($event)" />
 
-        <Step03 @change="nextStep()" />
+        <Step03 @change="changeStep($event)" />
       </v-stepper-items>
     </v-stepper>
   </GContainer>
@@ -54,9 +57,22 @@
       }
     },
     methods: {
-      nextStep(){
-        this.e1 ++
-      }
+      changeStep(event){
+        console.log(event === 'next');
+        switch (event) {
+        case 'next':
+          this.e1 ++
+          break;
+
+        case 'prev':
+          this.e1 --
+          break;
+
+        default:
+          this.e1 ++
+          break;
+        }
+      },
     },
   }
 </script>

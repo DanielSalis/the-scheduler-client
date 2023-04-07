@@ -13,7 +13,10 @@
       Continue
     </v-btn>
 
-    <v-btn text>
+    <v-btn
+      text
+      @click="goToPrevStep()"
+    >
       Cancel
     </v-btn>
   </v-stepper-content>
@@ -24,7 +27,10 @@
     name: "Step01Component",
     methods: {
       goToNextStep(){
-        this.$emit('change')
+        this.$emit('change', 'next')
+      },
+      goToPrevStep(){
+        this.$emit('change', 'prev')
       }
     },
   }
