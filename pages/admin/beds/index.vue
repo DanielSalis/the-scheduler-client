@@ -23,7 +23,7 @@
 
         <v-tab-item>
           <bedsList
-            v-if="bedData && classificationData"
+            v-if="bedData && bedData.length && classificationData"
             :headers="headers"
             :beds="bedData"
             :classifications="classificationData"
@@ -31,7 +31,7 @@
         </v-tab-item>
         <v-tab-item>
           <bedsAdd
-            v-if="unitiesData && classificationData"
+            v-if=" unitiesData && unitiesData.length && classificationData && classificationData.length"
             :unities="unitiesData"
             :classifications="classificationData"
           />
