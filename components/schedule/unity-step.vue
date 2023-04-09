@@ -1,24 +1,28 @@
 <template>
   <v-stepper-content step="1">
-    <v-card
-      class="mb-12"
-      color="blue lighten-1"
-      height="200px"
-    />
+    <div class="text-h4">
+      Selecione a unidade desejada
+    </div>
 
-    <v-btn
-      color="primary"
-      @click="goToNextStep()"
-    >
-      Continue
-    </v-btn>
+    <div class="text-subtitle-1">
+      Escolha apenas uma unidade que deseje fazer o dimensionamento
+    </div>
 
-    <v-btn
-      text
-      @click="goToPrevStep()"
-    >
-      Cancel
-    </v-btn>
+
+    <div class="mt-10">
+      <v-btn
+        text
+        @click="goToPrevStep()"
+      >
+        Cancelar
+      </v-btn>
+      <v-btn
+        color="primary"
+        @click="goToNextStep()"
+      >
+        Continuar
+      </v-btn>
+    </div>
   </v-stepper-content>
 </template>
 
