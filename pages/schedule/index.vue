@@ -1,7 +1,7 @@
 <template>
   <GContainer class="schedule-page__container">
     <v-stepper
-      v-model="e1"
+      v-model="currentStep"
     >
       <v-stepper-header>
         <Fragment
@@ -10,7 +10,7 @@
         >
           <v-stepper-step
             :step="index+1"
-            :complete="e1 > index"
+            :complete="currentStep > index"
           >
             {{ step.name }}
           </v-stepper-step>
@@ -42,7 +42,7 @@
     components: { Fragment, GContainer, Step01, Step02, Step03 },
     data () {
       return {
-        e1: 1,
+        currentStep: 1,
         stepps: [
           {
             name: 'Unidade',
@@ -60,15 +60,15 @@
       changeStep(event){
         switch (event) {
         case 'next':
-          this.e1 ++
+          this.currentStep ++
           break;
 
         case 'prev':
-          this.e1 --
+          this.currentStep --
           break;
 
         default:
-          this.e1 ++
+          this.currentStep ++
           break;
         }
       },
