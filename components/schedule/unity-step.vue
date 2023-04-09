@@ -1,8 +1,8 @@
 <template>
-  <v-stepper-content step="2">
+  <v-stepper-content step="1">
     <v-card
       class="mb-12"
-      color="black lighten-1"
+      color="blue lighten-1"
       height="200px"
     />
 
@@ -24,10 +24,10 @@
 
 <script>
   export default {
-    name: "Step02Component",
+    name: "UnityStep",
     methods: {
       goToNextStep(){
-        this.$emit('change')
+        this.$emit('change', 'next')
       },
       goToPrevStep(){
         this.$emit('change', 'prev')

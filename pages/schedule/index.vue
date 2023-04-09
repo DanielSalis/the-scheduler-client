@@ -20,11 +20,12 @@
       </v-stepper-header>
 
       <v-stepper-items>
-        <Step01 @change="changeStep($event)" />
-
-        <Step02 @change="changeStep($event)" />
-
-        <Step03 @change="changeStep($event)" />
+        <component
+          :is="step.component"
+          v-for="(step, index) in stepps"
+          :key="index"
+          @change="changeStep($event)"
+        />
       </v-stepper-items>
     </v-stepper>
   </GContainer>
@@ -33,25 +34,28 @@
 <script>
   import { Fragment } from 'vue-fragment'
   import GContainer from '~/components/g-container.vue';
-  import Step01 from './step01.vue';
-  import Step02 from './step02.vue';
-  import Step03 from './step03.vue';
+  import UnityStep from '~/components/schedule/unity-step.vue';
+  import DateStep from '~/components/schedule/date-step.vue';
+  import BedStep from '~/components/schedule/bed-step.vue';
 
   export default {
     name: "SchedulePage",
-    components: { Fragment, GContainer, Step01, Step02, Step03 },
+    components: { Fragment, GContainer, UnityStep, DateStep, BedStep },
     data () {
       return {
         currentStep: 1,
         stepps: [
           {
             name: 'Unidade',
+            component: UnityStep
           },
           {
             name: 'Data',
+            component: DateStep
           },
           {
             name: 'Leito',
+            component: BedStep
           }
         ]
       }
@@ -60,11 +64,15 @@
       changeStep(event){
         switch (event) {
         case 'next':
-          this.currentStep ++
+          if(this.currentStep < this.stepps.length){
+            this.currentStep ++
+          }
           break;
 
         case 'prev':
-          this.currentStep --
+          if(this.currentStep > 1){
+            this.currentStep --
+          }
           break;
 
         default:
