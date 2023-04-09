@@ -2,10 +2,23 @@
   <GContainer class="schedule-page__container">
     <v-stepper
       v-model="e1"
-      @change="()=>test()"
     >
       <v-stepper-header>
-        <v-stepper-step
+        <Fragment
+          v-for="step,index in stepps"
+          :key="step.name"
+        >
+          <v-stepper-step
+            :step="index+1"
+            :complete="e1 > index"
+          >
+            {{ step.name }}
+          </v-stepper-step>
+
+          <v-divider v-if="index < stepps.length - 1" />
+        </Fragment>
+
+        <!-- <v-stepper-step
           :complete="e1 > 1"
           step="1"
         >
@@ -28,7 +41,7 @@
           :complete="e1 > 3"
         >
           Name of step 3
-        </v-stepper-step>
+        </v-stepper-step> -->
       </v-stepper-header>
 
       <v-stepper-items>
@@ -43,6 +56,7 @@
 </template>
 
 <script>
+  import { Fragment } from 'vue-fragment'
   import GContainer from '~/components/g-container.vue';
   import Step01 from './step01.vue';
   import Step02 from './step02.vue';
@@ -50,10 +64,21 @@
 
   export default {
     name: "SchedulePage",
-    components: { GContainer, Step01, Step02, Step03 },
+    components: { Fragment, GContainer, Step01, Step02, Step03 },
     data () {
       return {
         e1: 1,
+        stepps: [
+          {
+            name: 'Unidade',
+          },
+          {
+            name: 'Data',
+          },
+          {
+            name: 'Leito',
+          }
+        ]
       }
     },
     methods: {
