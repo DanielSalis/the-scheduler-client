@@ -15,6 +15,7 @@
 
       <v-form
         v-if="unities"
+        ref="unity-form"
         class="unity-step__modal-container"
       >
         <v-select
@@ -69,7 +70,9 @@
       ...mapGetters("auth", ['getAuthData']),
 
       goToNextStep(){
-        this.$emit('change', 'next')
+        if(this.$refs['unity-form'].validate()){
+          this.$emit('change', 'next')
+        }
       },
       goToPrevStep(){
         this.$emit('change', 'prev')
