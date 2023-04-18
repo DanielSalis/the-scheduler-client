@@ -15,7 +15,7 @@
 
       <v-form
         v-if="beds"
-        ref="date-form"
+        ref="beds-form"
         class="bed-step__form-container"
       >
         <v-data-table
@@ -102,7 +102,7 @@
       ...mapGetters("auth", ['getAuthData']),
 
       goToNextStep(){
-        if(this.$refs['date-form'].validate() && this.dateIsValid){
+        if(this.$refs['beds-form'].validate()){
           this.$emit('change', 'next')
         }
       },
