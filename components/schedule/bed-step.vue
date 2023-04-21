@@ -37,7 +37,7 @@
               return-object
               label="Classificação"
               solo
-              @change="teste($event, item)"
+              @change="updateBedClassification($event, item)"
             />
           </template>
         </v-data-table>
@@ -64,10 +64,11 @@
 <script>
   import { mapGetters } from 'vuex';
   export default {
-    name: "UnityStep",
+    name: "BedStep",
 
     data() {
       return {
+        search: '',
         beds: [],
         shiftId: '',
         classifications: [],
@@ -127,8 +128,18 @@
           console.log(err);
         })
       },
-      teste(event, item){
+      async updateBedClassification(event, item){
         console.log({event, item})
+        const currentBed = {
+          ...item,
+          classification_id: event.id,
+          unity_id: this.getAuthData().unityId
+        }
+        await this.$axios.put(`/bed/updateById`, currentBed).then((response)=>{
+          console.log(response.data);
+        }).catch(err=>{
+          console.log(err);
+        })
       }
     },
   }

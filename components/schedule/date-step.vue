@@ -24,7 +24,6 @@
             :show-current="false"
             :first-day-of-week="1"
             locale="pt-br"
-            :rules="dateRule"
           />
 
           <span

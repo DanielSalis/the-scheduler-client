@@ -68,6 +68,7 @@
 
     data() {
       return {
+        search: '',
         users: [],
         shiftId: '',
         classifications: [],
