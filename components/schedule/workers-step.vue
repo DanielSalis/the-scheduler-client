@@ -26,18 +26,9 @@
           class="elevation-1"
         >
           <template #item.action="{ item }">
-            <v-select
-              v-model="item.classification"
-              class="mt-4 mb-4"
-              :style="{backgroundColor:item.classification.color}"
-              :items="classifications"
-              :rules="classificationRule"
-              item-text="name"
-              item-value="id"
-              return-object
-              label="Classificação"
-              solo
-              @change="teste($event, item)"
+            <v-checkbox
+              v-model="item.enabled"
+              :label="`Checkbox`"
             />
           </template>
         </v-data-table>
@@ -82,6 +73,10 @@
             value: 'name'
           },
           {
+            text: "Email",
+            value: 'email'
+          },
+          {
             text: 'Turno',
             value: 'action',
             sortable: false
@@ -97,7 +92,6 @@
 
     async beforeMount() {
       await this.getUsers();
-      await this.getAllClassifications();
     },
     methods: {
       ...mapGetters("auth", ['getAuthData']),
@@ -112,25 +106,12 @@
       },
       async getUsers(){
         const unityId = this.getAuthData().unityId
-        console.log(unityId);
-        await this.$axios.get(`/bed/getAllByUnityId/${unityId}`).then((response)=>{
-          console.log(response.data);
+        await this.$axios.get(`/user/getAllByUnityId/${unityId}`).then((response)=>{
           this.users = response.data
         }).catch(err=>{
           console.log(err);
         })
       },
-      async getAllClassifications(){
-        await this.$axios.get(`/classification/getAll`).then((response)=>{
-          console.log(response.data);
-          this.classifications = response.data
-        }).catch(err=>{
-          console.log(err);
-        })
-      },
-      teste(event, item){
-        console.log({event, item})
-      }
     },
   }
 </script>
