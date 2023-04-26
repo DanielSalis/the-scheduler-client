@@ -38,10 +38,11 @@
   import DateStep from '~/components/schedule/date-step.vue';
   import BedStep from '~/components/schedule/bed-step.vue';
   import WorkersStep from '~/components/schedule/workers-step.vue';
+  import SummaryStep from '~/components/schedule/summary-step.vue';
 
   export default {
     name: "SchedulePage",
-    components: { Fragment, GContainer, UnityStep, DateStep, BedStep, WorkersStep },
+    components: { Fragment, GContainer, UnityStep, DateStep, BedStep, WorkersStep, SummaryStep },
     data () {
       return {
         currentStep: 1,
@@ -60,6 +61,10 @@
           },          {
             name: 'Funcionários',
             component: WorkersStep
+          },
+          {
+            name: 'Resumo',
+            component: SummaryStep
           }
         ]
       }
