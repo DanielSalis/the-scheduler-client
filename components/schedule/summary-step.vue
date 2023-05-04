@@ -60,15 +60,15 @@
         headers: [
           {
             text: "Usuários",
-            value: 'id'
+            value: 'user'
           },
           {
             text: "Leitos",
-            value: 'name'
+            value: 'beds'
           },
           {
             text: "Carga horária",
-            value: 'email'
+            value: 'workload'
           },
           {
             text: 'Turno',
