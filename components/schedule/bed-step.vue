@@ -24,6 +24,10 @@
           :items="beds"
           sort-by="name"
           class="elevation-1"
+          items-per-page="5"
+          :footer-props="{
+            'items-per-page-options': [5, 10, 15]
+          }"
         >
           <template #item.action="{ item }">
             <v-select
@@ -82,7 +86,7 @@
             value: 'name'
           },
           {
-            text: 'Turno',
+            text: 'Classificação',
             value: 'action',
             sortable: false
           }
@@ -150,7 +154,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 240px);
+  // height: calc(100vh - 240px);
 }
 
 .bed-step__form-container{
