@@ -24,7 +24,7 @@
           :items="beds"
           sort-by="name"
           class="elevation-1"
-          items-per-page="5"
+          :items-per-page="5"
           :footer-props="{
             'items-per-page-options': [5, 10, 15]
           }"
