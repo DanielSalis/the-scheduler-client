@@ -89,7 +89,6 @@
     },
     computed: {
     },
-
     async beforeMount() {
       await this.getUsers();
     },
@@ -98,6 +97,8 @@
 
       goToNextStep(){
         if(this.$refs['workers-form'].validate()){
+          const selectedUsers = this.users.filter(user=>user.enabled)
+          this.$emit('selectedUsers', selectedUsers)
           this.$emit('change', 'next')
         }
       },
