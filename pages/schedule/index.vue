@@ -25,6 +25,7 @@
           v-for="(step, index) in stepps"
           :key="index"
           @change="changeStep($event)"
+          @selectedUsers="sendSelectedUsers($event)"
         />
       </v-stepper-items>
     </v-stepper>
@@ -66,7 +67,8 @@
             name: 'Resumo',
             component: SummaryStep
           }
-        ]
+        ],
+        selectedUsers:[]
       }
     },
     methods: {
@@ -89,6 +91,9 @@
           break;
         }
       },
+      sendSelectedUsers(event){
+        this.selectedUsers = event;
+      }
     },
   }
 </script>
