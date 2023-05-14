@@ -2,7 +2,9 @@
   <v-stepper-content
     step="5"
   >
-    <div class="summary-step__container">
+    <div
+      class="summary-step__container"
+    >
       <div class="summary-step__titles">
         <div class="text-h4">
           Revisão
@@ -14,6 +16,7 @@
       </div>
 
       <v-form
+        v-if="users.length && users.length > 0"
         ref="summary-form"
         class="summary-step__form-container"
       >
@@ -32,6 +35,13 @@
           </template>
         </v-data-table>
       </v-form>
+
+      <div
+        v-for="item in users"
+        :key="item.id"
+      >
+        <pre>{{ item }}</pre>
+      </div>
 
       <div class="summary-step__button-group mt-2">
         <v-btn
@@ -53,10 +63,10 @@
 
 <script>
   export default {
-    name: "WorkersStep",
-
+    name: "SummaryStep",
     data() {
       return {
+        render: false,
         headers: [
           {
             text: "Usuários",
@@ -78,10 +88,16 @@
         ],
       }
     },
-
-    async beforeMount() {
-      console.log("mounted");
+    computed: {
+      users (){
+        return this.$parent.$parent.$parent.selectedUsers
+      }
     },
+    methods: {
+      goToPrevStep(){
+        this.$emit('change', 'prev')
+      },
+    }
   }
 </script>
 
@@ -90,7 +106,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 240px);
 }
 
 .summary-step__form-container{
