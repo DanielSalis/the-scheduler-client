@@ -115,6 +115,7 @@
         this.$emit('change', 'prev')
       },
 
+      // TODO - fazer isso ficar dinamico na store
       async updateBedClassification(event, item){
         console.log({event, item})
         const currentBed = {
