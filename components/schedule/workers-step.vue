@@ -15,24 +15,18 @@
       </div>
 
       <v-form
-        v-if="users"
+        v-if="availableUsers"
         ref="workers-form"
         class="workers-step__form-container"
       >
         <v-data-table
-          :search="search"
+          v-model="selectedUsers"
           :headers="headers"
-          :items="users"
+          :items="availableUsers"
           sort-by="name"
           class="elevation-1"
-        >
-          <template #item.action="{ item }">
-            <v-checkbox
-              v-model="item.enabled"
-              :label="`Checkbox`"
-            />
-          </template>
-        </v-data-table>
+          show-select
+        />
       </v-form>
 
       <div class="workers-step__button-group mt-2">
@@ -54,16 +48,14 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapState, mapActions } from 'vuex';
   export default {
     name: "WorkersStep",
 
     data() {
       return {
         search: '',
-        users: [],
-        shiftId: '',
-        classifications: [],
+        selectedUsers: [],
         headers: [
           {
             text: "Id",
@@ -77,11 +69,6 @@
             text: "Email",
             value: 'email'
           },
-          {
-            text: 'Turno',
-            value: 'action',
-            sortable: false
-          }
         ],
         classificationRule: [
           v => !!v || 'Classificação é necessária',
@@ -89,30 +76,27 @@
       }
     },
     computed: {
+      ...mapState('stepper', [
+        'availableUsers'
+      ])
     },
-    async beforeMount() {
-      await this.getUsers();
-    },
+
     methods: {
       ...mapGetters("auth", ['getAuthData']),
+      ...mapActions("stepper", [
+        'setSelectedUsers'
+      ]),
 
       goToNextStep(){
         if(this.$refs['workers-form'].validate()){
-          const selectedUsers = this.users.filter(user=>user.enabled)
-          this.$emit('selectedUsers', selectedUsers)
+          console.log(this.selectedUsers);
+          debugger
+          this.setSelectedUsers(this.selectedUsers)
           this.$emit('change', 'next')
         }
       },
       goToPrevStep(){
         this.$emit('change', 'prev')
-      },
-      async getUsers(){
-        const unityId = this.getAuthData().unityId
-        await this.$axios.get(`/user/getAllByUnityId/${unityId}`).then((response)=>{
-          this.users = response.data
-        }).catch(err=>{
-          console.log(err);
-        })
       },
     },
   }

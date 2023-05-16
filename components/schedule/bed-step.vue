@@ -97,16 +97,22 @@
     },
 
     computed: {
-      ...mapState("stepper", ['availiableBeds']),
-      ...mapState("stepper", ['classifications']),
-
+      ...mapState("stepper", [
+        'availiableBeds',
+        'classifications',
+        'unity'
+      ]),
     },
 
     methods: {
-      ...mapActions("stepper", ['setDate']),
+      ...mapActions("stepper", [
+        'setDate',
+        'fetchUsers'
+      ]),
 
       goToNextStep(){
         if(this.$refs['beds-form'].validate()){
+          this.fetchUsers(this.unity)
           this.$emit('change', 'next')
         }
       },

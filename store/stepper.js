@@ -5,7 +5,8 @@ export const state = () => ({
   shift: null,
   availiableBeds: [],
   classifications: [],
-  workers: [],
+  availableUsers: [],
+  selectedUsers: [],
 });
 
 export const getters = {
@@ -15,7 +16,8 @@ export const getters = {
   getShift: (state) => state.shift,
   getavAiliableBeds: (state) => state.availiableBeds,
   getClassifications: (state) => state.classifications,
-  getWorkers: (state) => state.workers,
+  getAvailableUsers: (state) => state.availableUsers,
+  getSelectedUsers: (state) => state.selectedUsers,
 };
 
 export const mutations = {
@@ -37,8 +39,11 @@ export const mutations = {
   setClassifications(state, value) {
     state.classifications = value;
   },
-  setWorkers(state, value) {
-    state.workers = value;
+  setAvailableUsers(state, value){
+    state.availableUsers = value
+  },
+  setSelectedUsers(state, value) {
+    state.selectedUsers = value;
   },
 };
 
@@ -73,6 +78,15 @@ export const actions = {
     })
   },
 
+  async fetchUsers(state, unity){
+    const {id} = unity
+    await this.$axios.get(`/user/getAllByUnityId/${id}`).then((response)=>{
+      state.commit("setAvailableUsers", response.data)
+    }).catch(err=>{
+      console.log(err);
+    })
+  },
+
   async setUnity(state, value) {
     state.commit("setUnity", value);
   },
@@ -88,7 +102,7 @@ export const actions = {
   async setClassifications(state, value) {
     state.commit("setClassifications", value);
   },
-  async setWorkers(state, value) {
-    state.commit("setWorkers", value);
+  async setSelectedUsers(state, value) {
+    state.commit("setSelectedUsers", value);
   },
 };
