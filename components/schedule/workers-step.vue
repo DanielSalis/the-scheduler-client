@@ -89,8 +89,6 @@
 
       goToNextStep(){
         if(this.$refs['workers-form'].validate()){
-          console.log(this.selectedUsers);
-          debugger
           this.setSelectedUsers(this.selectedUsers)
           this.$emit('change', 'next')
         }
