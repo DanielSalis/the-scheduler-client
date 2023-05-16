@@ -15,14 +15,14 @@
       </div>
 
       <v-form
-        v-if="beds"
+        v-if="availiableBeds"
         ref="beds-form"
         class="bed-step__form-container"
       >
         <v-data-table
           :search="search"
           :headers="headers"
-          :items="beds"
+          :items="availiableBeds"
           sort-by="name"
           class="elevation-1"
           :items-per-page="5"
@@ -67,16 +67,14 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions, mapState } from 'vuex';
   export default {
     name: "BedStep",
 
     data() {
       return {
         search: '',
-        beds: [],
         shiftId: '',
-        classifications: [],
         headers: [
           {
             text: "Id",
@@ -97,42 +95,26 @@
         ],
       }
     },
+
     computed: {
+      ...mapState("stepper", ['availiableBeds']),
+      ...mapState("stepper", ['classifications']),
+
     },
 
-    async beforeMount() {
-      await this.getBeds();
-      await this.getAllClassifications();
-    },
     methods: {
-      ...mapGetters("auth", ['getAuthData']),
+      ...mapActions("stepper", ['setDate']),
 
       goToNextStep(){
         if(this.$refs['beds-form'].validate()){
           this.$emit('change', 'next')
         }
       },
+
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
-      async getBeds(){
-        const unityId = this.getAuthData().unityId
-        console.log(unityId);
-        await this.$axios.get(`/bed/getAllByUnityId/${unityId}`).then((response)=>{
-          console.log(response.data);
-          this.beds = response.data
-        }).catch(err=>{
-          console.log(err);
-        })
-      },
-      async getAllClassifications(){
-        await this.$axios.get(`/classification/getAll`).then((response)=>{
-          console.log(response.data);
-          this.classifications = response.data
-        }).catch(err=>{
-          console.log(err);
-        })
-      },
+
       async updateBedClassification(event, item){
         console.log({event, item})
         const currentBed = {

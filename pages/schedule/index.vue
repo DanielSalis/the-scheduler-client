@@ -59,14 +59,15 @@
           {
             name: 'Leito',
             component: BedStep
-          },          {
-            name: 'Funcionários',
-            component: WorkersStep
           },
-          {
-            name: 'Resumo',
-            component: SummaryStep
-          }
+          // {
+          //   name: 'Funcionários',
+          //   component: WorkersStep
+          // },
+          // {
+          //   name: 'Resumo',
+          //   component: SummaryStep
+          // }
         ],
         selectedUsers:[]
       }

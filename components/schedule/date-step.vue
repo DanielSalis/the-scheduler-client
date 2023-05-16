@@ -14,7 +14,7 @@
       </div>
 
       <v-form
-        v-if="shifts"
+        v-if="availableShifts"
         ref="date-form"
         class="date-step__modal-container"
       >
@@ -33,11 +33,11 @@
         </div>
 
         <v-select
-          v-model="shiftId"
-          :items="shifts"
+          v-model="shift"
+          :items="availableShifts"
           :rules="shiftRule"
           item-text="name"
-          item-value="id"
+          return-object
           label="Turnos"
           solo
         />
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex';
   const today = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
 
   export default {
@@ -69,8 +70,7 @@
 
     data() {
       return {
-        shifts: [],
-        shiftId: '',
+        shift: '',
         date: today,
         shiftRule: [
           v => !!v || 'Turno é necessário',
@@ -78,31 +78,27 @@
       }
     },
     computed: {
+      ...mapState("stepper", ['availableShifts']),
+
       dateIsValid(){
         return this.date >= today
       }
     },
 
-    async beforeMount() {
-      await this.getShifts();
-    },
     methods: {
+      ...mapActions("stepper", ['setDate']),
+      ...mapActions("stepper", ['setShift']),
+
       goToNextStep(){
         if(this.$refs['date-form'].validate() && this.dateIsValid){
+          this.setDate(this.date)
+          this.setShift(this.shift)
           this.$emit('change', 'next')
         }
       },
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
-      async getShifts(){
-        await this.$axios.get(`/shift/getAll`).then((response)=>{
-          this.shifts = response.data
-        }).catch(err=>{
-          console.log(err);
-        })
-
-      }
     },
   }
 </script>

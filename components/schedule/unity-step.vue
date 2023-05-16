@@ -19,11 +19,11 @@
         class="unity-step__modal-container"
       >
         <v-select
-          v-model="unityId"
+          v-model="unity"
           :items="unities"
           :rules="unitiesRule"
           item-text="name"
-          item-value="id"
+          return-object
           label="Unidades"
           solo
         />
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: "UnityStep",
@@ -56,7 +56,7 @@
     data() {
       return {
         unities: [],
-        unityId: '',
+        unity: '',
         unitiesRule: [
           v => !!v || 'Unidad é necessária',
         ],
@@ -68,9 +68,15 @@
     },
     methods: {
       ...mapGetters("auth", ['getAuthData']),
+      ...mapActions("stepper", ['setUnity']),
+      ...mapActions("stepper", ['fetchBeds']),
+      ...mapActions("stepper", ['fetchShifts']),
 
       goToNextStep(){
         if(this.$refs['unity-form'].validate()){
+          this.setUnity(this.unity)
+          this.fetchBeds(this.unity)
+          this.fetchShifts()
           this.$emit('change', 'next')
         }
       },
