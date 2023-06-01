@@ -86,13 +86,13 @@
     },
 
     methods: {
-      ...mapActions("stepper", ['setDate']),
-      ...mapActions("stepper", ['setShift']),
+      ...mapActions("stepper", ['setDate', 'setShift', 'fetchAllClassifications']),
 
       goToNextStep(){
         if(this.$refs['date-form'].validate() && this.dateIsValid){
           this.setDate(this.date)
           this.setShift(this.shift)
+          this.fetchAllClassifications()
           this.$emit('change', 'next')
         }
       },

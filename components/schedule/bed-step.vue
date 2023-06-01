@@ -15,14 +15,14 @@
       </div>
 
       <v-form
-        v-if="availiableBeds"
+        v-if="availiableBedsII"
         ref="beds-form"
         class="bed-step__form-container"
       >
         <v-data-table
           :search="search"
           :headers="headers"
-          :items="availiableBeds"
+          :items="availiableBedsII"
           sort-by="name"
           class="elevation-1"
           :items-per-page="5"
@@ -30,19 +30,24 @@
             'items-per-page-options': [5, 10, 15]
           }"
         >
-          <template #item.action="{ item }">
+          <template #item.action="{ item, index }">
             <v-select
               v-model="item.classification"
+              :value="item.classification"
               class="mt-4 mb-4"
               :style="{backgroundColor:item.classification.color}"
               :items="classifications"
               :rules="classificationRule"
               item-text="name"
-              item-value="id"
               return-object
               label="Classificação"
               solo
-              @change="updateBedClassification($event, item)"
+              @change="updateBedClassification({
+                event: $event,
+                index,
+                item,
+                unity
+              })"
             />
           </template>
         </v-data-table>
@@ -67,13 +72,14 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex';
+  import { mapActions, mapState, mapGetters } from 'vuex';
   export default {
     name: "BedStep",
 
     data() {
       return {
         search: '',
+        availiableBedsII: [],
         shiftId: '',
         headers: [
           {
@@ -104,10 +110,26 @@
       ]),
     },
 
+    watch:{
+      availiableBeds:{
+        handler(newValue, oldValue){
+          console.log({newValue, oldValue});
+          this.availiableBedsII = JSON.parse(JSON.stringify(newValue));
+        },
+        deep: true,
+        immediate: true
+      }
+    },
+
     methods: {
       ...mapActions("stepper", [
         'setDate',
-        'fetchUsers'
+        'fetchUsers',
+        'updateBedClassification',
+      ]),
+      ...mapGetters("stepper", [
+        'getClassifications',
+        'getUnity'
       ]),
 
       goToNextStep(){
@@ -120,21 +142,6 @@
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
-
-      // TODO - fazer isso ficar dinamico na store
-      async updateBedClassification(event, item){
-        console.log({event, item})
-        const currentBed = {
-          ...item,
-          classification_id: event.id,
-          unity_id: this.getAuthData().unityId
-        }
-        await this.$axios.put(`/bed/updateById`, currentBed).then((response)=>{
-          console.log(response.data);
-        }).catch(err=>{
-          console.log(err);
-        })
-      }
     },
   }
 </script>

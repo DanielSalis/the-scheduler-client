@@ -34,6 +34,7 @@ export const mutations = {
     state.shift = value;
   },
   setAvailiableBeds(state, value) {
+    console.log("COMMITOU");
     state.availiableBeds = value;
   },
   setClassifications(state, value) {
@@ -70,13 +71,35 @@ export const actions = {
       });
   },
 
-  async fetchAllClassifications(){
+  async fetchAllClassifications(state){
     await this.$axios.get(`/classification/getAll`).then((response)=>{
+      console.log(response.data);
       state.commit("setClassifications", response.data);
     }).catch(err=>{
       console.log(err);
     })
   },
+
+    async updateBedClassification({state, commit}, payload){
+      const {event, index, item, unity} = payload
+      console.log(event, index, item, unity);
+
+      const currentBed = {
+        ...item,
+        classification:event,
+        classification_id: event.id,
+        unity_id: unity.id
+      }
+      await this.$axios.put(`/bed/updateById`, currentBed).then((response)=>{
+        console.log(response.data);
+      }).catch(err=>{
+        console.log(err);
+      })
+
+      const aux = state.availiableBeds;
+      aux[index] = currentBed
+      commit("setAvailiableBeds", aux)
+    },
 
   async fetchUsers(state, unity){
     const {id} = unity
@@ -100,6 +123,7 @@ export const actions = {
     state.commit("setAvailiableBeds", value);
   },
   async setClassifications(state, value) {
+    console.log(state,value);
     state.commit("setClassifications", value);
   },
   async setSelectedUsers(state, value) {
