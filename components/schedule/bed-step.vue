@@ -15,14 +15,14 @@
       </div>
 
       <v-form
-        v-if="availiableBedsII"
+        v-if="localAvailiableBeds"
         ref="beds-form"
         class="bed-step__form-container"
       >
         <v-data-table
           :search="search"
           :headers="headers"
-          :items="availiableBedsII"
+          :items="localAvailiableBeds"
           sort-by="name"
           class="elevation-1"
           :items-per-page="5"
@@ -79,7 +79,7 @@
     data() {
       return {
         search: '',
-        availiableBedsII: [],
+        localAvailiableBeds: [],
         shiftId: '',
         headers: [
           {
@@ -112,9 +112,8 @@
 
     watch:{
       availiableBeds:{
-        handler(newValue, oldValue){
-          console.log({newValue, oldValue});
-          this.availiableBedsII = JSON.parse(JSON.stringify(newValue));
+        handler(newValue){
+          this.localAvailiableBeds = JSON.parse(JSON.stringify(newValue));
         },
         deep: true,
         immediate: true

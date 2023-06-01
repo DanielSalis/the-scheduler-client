@@ -82,7 +82,6 @@ export const actions = {
 
     async updateBedClassification({state, commit}, payload){
       const {event, index, item, unity} = payload
-      console.log(event, index, item, unity);
 
       const currentBed = {
         ...item,
