@@ -23,7 +23,7 @@
           v-model="selectedUsers"
           :headers="headers"
           :items="availableUsers"
-          sort-by="name"
+          sort-by="code"
           class="elevation-1"
           show-select
         />
@@ -58,8 +58,8 @@
         selectedUsers: [],
         headers: [
           {
-            text: "Id",
-            value: 'id'
+            text: "Matrícula",
+            value: 'code'
           },
           {
             text: "Nome",
