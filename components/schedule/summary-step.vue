@@ -16,26 +16,64 @@
         </div>
       </div>
 
+      <p class="text-subtitle-2 mt-4">
+        Leitos não selecionados
+      </p>
+
+      <div
+        v-if="availiableBeds"
+        class="mb-4"
+      >
+        <v-chip
+          v-for="(item, index) in availableChips"
+          :key="index"
+          :color="item.classification.color"
+        >
+          {{ item.name }}
+        </v-chip>
+      </div>
+
       <v-form
         v-if="selectedUsers && selectedUsers.length > 0"
         ref="summary-form"
-        class="summary-step__form-container"
+        class="summary-step__form-container "
       >
         <v-data-table
-          :search="search"
           :headers="headers"
-          :items="[{user: 'daniel', beds: 'teste', workload: '6h'}]"
+          :items="users"
           sort-by="name"
           class="elevation-1"
-        />
+        >
+          <template #item.actions="{ item: combobox }">
+            <v-combobox
+              v-model="combobox.beds"
+              :items="availableChips"
+              item-text="name"
+              item-value="id"
+              return-object
+              clearable
+              label="Selecione os leitos"
+              multiple
+              solo
+              dense
+              @change="selectChip($event)"
+            >
+              <template #selection="{ attrs, item, select, selected }">
+                <v-chip
+                  v-bind="attrs"
+                  :input-value="selected"
+                  close
+                  :color="item.classification.color"
+                  @click="select"
+                  @click:close="remove(combobox, item)"
+                >
+                  <strong>{{ item.name }}</strong>
+                </v-chip>
+              </template>
+            </v-combobox>
+          </template>
+        </v-data-table>
       </v-form>
-
-      <div
-        v-for="item in users"
-        :key="item.id"
-      >
-        <pre>{{ item }}</pre>
-      </div>
 
       <div class="summary-step__button-group mt-2">
         <div>
@@ -71,31 +109,62 @@
     name: "SummaryStep",
     data() {
       return {
-        render: false,
+        beds: null,
+        users:[{user: 'daniel', workload: '6h'}, {user: 'daniel II', workload: '6h'}],
+        chips: [],
+        filteredChips: [],
+        items: [],
         headers: [
           {
             text: "Funcionários alocados",
             value: 'user'
           },
           {
-            text: "Distribuição de leitos",
-            value: 'beds'
-          },
-          {
             text: "Carga horária",
             value: 'workload'
           },
+          {
+            text: 'ACTIONS',
+            value: 'actions',
+            sortable: false
+          }
         ],
       }
     },
     computed: {
       ...mapState('stepper', [
-        'selectedUsers'
+        'selectedUsers',
+        'availiableBeds',
       ]),
+
+      availableChips(){
+        const elementosNaoDuplicados = [];
+        this.chips.forEach((objeto) => {
+          if (!this.filteredChips.some((item) => item.id === objeto.id)) {
+            elementosNaoDuplicados.push(objeto);
+          }
+        });
+        return elementosNaoDuplicados
+      }
+    },
+    watch:{
+      availiableBeds:{
+        handler(newValue){
+          this.chips = JSON.parse(JSON.stringify(newValue));
+        },
+        deep: true,
+        immediate: true
+      }
     },
     methods: {
       goToPrevStep(){
         this.$emit('change', 'prev')
+      },
+      selectChip(event){
+        this.filteredChips = [...event]
+      },
+      remove (combobox, item) {
+        combobox.beds.splice(combobox.beds.indexOf(item), 1)
       },
     }
   }
