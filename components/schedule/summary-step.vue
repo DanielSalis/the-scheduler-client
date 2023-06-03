@@ -44,33 +44,34 @@
           sort-by="name"
           class="elevation-1"
         >
-          <template #item.actions="{ item: combobox }">
-            <v-combobox
-              v-model="combobox.beds"
-              :items="availableChips"
-              item-text="name"
-              item-value="id"
-              return-object
-              clearable
-              label="Selecione os leitos"
-              multiple
-              solo
-              dense
-              @change="selectChip($event)"
-            >
-              <template #selection="{ attrs, item, select, selected }">
-                <v-chip
-                  v-bind="attrs"
-                  :input-value="selected"
-                  close
-                  :color="item.classification.color"
-                  @click="select"
-                  @click:close="remove(combobox, item)"
-                >
-                  <strong>{{ item.name }}</strong>
-                </v-chip>
-              </template>
-            </v-combobox>
+          <template #item.actions="{ item: row }">
+            <v-container fluid>
+              <v-combobox
+                v-model="row.beds"
+                :items="availableChips"
+                item-text="name"
+                item-value="id"
+                return-object
+                label="Selecione os leitos"
+                multiple
+                solo
+                dense
+                @change="selectChip($event)"
+              >
+                <template #selection="{ attrs, item: bed, select, selected }">
+                  <v-chip
+                    v-bind="attrs"
+                    :input-value="selected"
+                    close
+                    :color="bed.classification.color"
+                    @click="select"
+                    @click:close="remove(row, bed)"
+                  >
+                    <strong>{{ bed.name }}</strong>
+                  </v-chip>
+                </template>
+              </v-combobox>
+            </v-container>
           </template>
         </v-data-table>
       </v-form>
@@ -113,7 +114,6 @@
         users:[{user: 'daniel', workload: '6h'}, {user: 'daniel II', workload: '6h'}],
         chips: [],
         filteredChips: [],
-        items: [],
         headers: [
           {
             text: "Funcionários alocados",
@@ -138,13 +138,14 @@
       ]),
 
       availableChips(){
-        const elementosNaoDuplicados = [];
-        this.chips.forEach((objeto) => {
-          if (!this.filteredChips.some((item) => item.id === objeto.id)) {
-            elementosNaoDuplicados.push(objeto);
+        if(!this.chips) return []
+        const duplicatedChips = [];
+        this.chips.forEach((classification) => {
+          if (!this.filteredChips.some((item) => item.id === classification.id)) {
+            duplicatedChips.push(classification);
           }
         });
-        return elementosNaoDuplicados
+        return duplicatedChips
       }
     },
     watch:{
@@ -161,9 +162,13 @@
         this.$emit('change', 'prev')
       },
       selectChip(event){
-        this.filteredChips = [...event]
+        if(event.length <= 0) return
+
+        const aux = [...event]
+        this.filteredChips.push(aux[aux.length - 1])
       },
       remove (combobox, item) {
+        this.filteredChips.splice(this.filteredChips.indexOf(item), 1)
         combobox.beds.splice(combobox.beds.indexOf(item), 1)
       },
     }
