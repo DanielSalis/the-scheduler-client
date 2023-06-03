@@ -17,7 +17,7 @@
       </div>
 
       <v-form
-        v-if="users.length && users.length > 0"
+        v-if="selectedUsers && selectedUsers.length > 0"
         ref="summary-form"
         class="summary-step__form-container"
       >
@@ -27,14 +27,7 @@
           :items="[{user: 'daniel', beds: 'teste', workload: '6h'}]"
           sort-by="name"
           class="elevation-1"
-        >
-          <template #item.action="{ item }">
-            <v-checkbox
-              v-model="item.enabled"
-              :label="`Checkbox`"
-            />
-          </template>
-        </v-data-table>
+        />
       </v-form>
 
       <div
@@ -45,17 +38,26 @@
       </div>
 
       <div class="summary-step__button-group mt-2">
-        <v-btn
-          text
-          @click="goToPrevStep()"
-        >
-          Cancelar
-        </v-btn>
+        <div>
+          <v-btn
+            text
+            @click="goToPrevStep()"
+          >
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="primary"
+            @click="goToNextStep()"
+          >
+            Continuar
+          </v-btn>
+        </div>
+
         <v-btn
           color="primary"
           @click="goToNextStep()"
         >
-          Continuar
+          Exportar
         </v-btn>
       </div>
     </div>
@@ -63,6 +65,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: "SummaryStep",
     data() {
@@ -70,29 +74,24 @@
         render: false,
         headers: [
           {
-            text: "Usuários",
+            text: "Funcionários alocados",
             value: 'user'
           },
           {
-            text: "Leitos",
+            text: "Distribuição de leitos",
             value: 'beds'
           },
           {
             text: "Carga horária",
             value: 'workload'
           },
-          {
-            text: 'Turno',
-            value: 'action',
-            sortable: false
-          }
         ],
       }
     },
     computed: {
-      users (){
-        return this.$parent.$parent.$parent.selectedUsers
-      }
+      ...mapState('stepper', [
+        'selectedUsers'
+      ]),
     },
     methods: {
       goToPrevStep(){
@@ -117,5 +116,11 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 8px;
+}
+
+.summary-step__button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
