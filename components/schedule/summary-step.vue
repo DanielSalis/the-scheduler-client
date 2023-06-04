@@ -123,7 +123,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: "SummaryStep",
@@ -139,13 +139,13 @@
             value: 'name'
           },
           {
-            text: "Carga horária",
-            value: 'workload'
-          },
-          {
             text: 'Leitos',
             value: 'actions',
             sortable: false
+          },
+          {
+            text: "Carga horária",
+            value: 'workload'
           }
         ],
       }
@@ -185,11 +185,16 @@
       }
     },
     methods: {
+      ...mapActions("stepper", [
+        'setSelectedUsers'
+      ]),
+
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
       goToNextStep(){
         if(confirm("Deseja finalizar o dimensionamento?")){
+          this.setSelectedUsers(this.users)
           console.log("Terminou");
         }
       },
