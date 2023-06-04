@@ -16,8 +16,18 @@
         </div>
       </div>
 
-      <p class="text-subtitle-2 mt-4">
+      <p
+        v-if="!availableChips"
+        class="text-subtitle-2 mt-4"
+      >
         Leitos não selecionados
+      </p>
+
+      <p
+        v-else
+        class="text-subtitle-2 mt-4"
+      >
+        Todos os leitos foram selecionados 🙂
       </p>
 
       <div
@@ -44,8 +54,17 @@
           sort-by="name"
           class="elevation-1"
         >
+          <template #item.workload="{item: row}">
+            <div v-if="row.workload">
+              {{ row.workload }} minutos
+            </div>
+            <div v-else>
+              -
+            </div>
+          </template>
+
           <template #item.actions="{ item: row }">
-            <v-container fluid>
+            <v-container class="summary-step__actions-container">
               <v-combobox
                 v-model="row.beds"
                 :items="availableChips"
@@ -55,11 +74,11 @@
                 label="Selecione os leitos"
                 multiple
                 solo
-                dense
-                @change="selectChip($event)"
+                @change="selectChip($event, row)"
               >
                 <template #selection="{ attrs, item: bed, select, selected }">
                   <v-chip
+                    class="summary-step__actions-chip"
                     v-bind="attrs"
                     :input-value="selected"
                     close
@@ -111,20 +130,20 @@
     data() {
       return {
         beds: null,
-        users:[{user: 'daniel', workload: '6h'}, {user: 'daniel II', workload: '6h'}],
+        users:[],
         chips: [],
         filteredChips: [],
         headers: [
           {
             text: "Funcionários alocados",
-            value: 'user'
+            value: 'name'
           },
           {
             text: "Carga horária",
             value: 'workload'
           },
           {
-            text: 'ACTIONS',
+            text: 'Leitos',
             value: 'actions',
             sortable: false
           }
@@ -155,22 +174,45 @@
         },
         deep: true,
         immediate: true
+      },
+
+      selectedUsers:{
+        handler(newValue){
+          this.users = JSON.parse(JSON.stringify(newValue));
+        },
+        deep: true,
+        immediate: true
       }
     },
     methods: {
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
-      selectChip(event){
+      goToNextStep(){
+        if(confirm("Deseja finalizar o dimensionamento?")){
+          console.log("Terminou");
+        }
+      },
+      selectChip(event, row){
         if(event.length <= 0) return
+
+        row.workload = this.calculateWorkload(row.beds)
 
         const aux = [...event]
         this.filteredChips.push(aux[aux.length - 1])
       },
-      remove (combobox, item) {
+      remove (row, item) {
+        row.workload = row.workload - item.classification.estimated_time;
         this.filteredChips.splice(this.filteredChips.indexOf(item), 1)
-        combobox.beds.splice(combobox.beds.indexOf(item), 1)
+        row.beds.splice(row.beds.indexOf(item), 1)
       },
+      calculateWorkload(bedsArray){
+        let counter = 0;
+        bedsArray.forEach(bed=>{
+          counter = counter + bed.classification.estimated_time
+        })
+        return counter
+      }
     }
   }
 </script>
@@ -196,5 +238,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.summary-step__actions-container{
+  width: 100%;
+  max-width: 400px;
+}
+
+.summary-step__actions-chip{
+  margin-bottom: 4px;
 }
 </style>
