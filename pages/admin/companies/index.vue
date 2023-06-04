@@ -23,7 +23,7 @@
 
         <v-tab-item>
           <companiesList
-            v-if="companiesData"
+            v-if="companiesData && companiesData.length"
             :headers="headers"
             :companies="companiesData"
           />
@@ -60,14 +60,26 @@
     },
     computed: {
       headers(){
-        const headerKeys = Object.keys(this.companiesData[0])
-        const headersData = headerKeys.map((item)=>{
-          return {
-            text: item.toUpperCase(),
-            value: item
+        console.log(this.companiesData);
+        const headersData = [
+          {
+            text: "Id",
+            value: 'id'
+          },
+          {
+            text: "Nome",
+            value: 'name'
+          },
+          {
+            text: "Endereço",
+            value: 'address'
+          },
+          {
+            text: 'ACTIONS',
+            value: 'actions',
+            sortable: false
           }
-        })
-        headersData.push({ text: 'ACTIONS', value: 'actions', sortable: false },)
+        ]
         return headersData
       }
     }

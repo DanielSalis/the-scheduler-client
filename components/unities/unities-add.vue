@@ -18,7 +18,7 @@
           v-model="unityInfo.location"
           :rules="locationRules"
           solo
-          label="Endereço do hospital"
+          label="Localização da unidade / andar / setor / etc"
           required
         />
 
@@ -62,10 +62,10 @@
           v => v.length >= 10 || 'Nome precisa ter no mínimo 8 caracteres',
         ],
         locationRules: [
-          v => !!v || 'Endereço é necessário',
+          v => !!v || 'Setor é necessário',
         ],
         hospitalRule: [
-          v => !!v || 'Rede é necessária',
+          v => !!v || 'Hospital é necessário',
         ],
       }
     },

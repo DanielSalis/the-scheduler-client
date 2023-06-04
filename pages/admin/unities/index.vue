@@ -23,7 +23,7 @@
 
         <v-tab-item>
           <unitiesList
-            v-if="unityData"
+            v-if="unityData && unityData.length"
             :headers="headers"
             :unities="unityData"
           />

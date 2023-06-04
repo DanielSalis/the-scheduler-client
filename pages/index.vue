@@ -85,6 +85,11 @@
                 name: 'Leitos',
                 description: 'Crie / Edite / Delete / Atualize Leitos',
                 route:"/admin/beds"
+              },
+              {
+                name: 'Dimensionamento',
+                description: 'Distribua as responsabilidades de seu time e crie um dimensionamento',
+                route:"/schedule"
               }
             ]
           },

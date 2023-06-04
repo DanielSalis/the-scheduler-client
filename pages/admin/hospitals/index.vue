@@ -23,7 +23,7 @@
 
         <v-tab-item>
           <hospitalsList
-            v-if="hospitalsData"
+            v-if="hospitalsData && hospitalsData.length"
             :headers="headers"
             :hospitals="hospitalsData"
           />
