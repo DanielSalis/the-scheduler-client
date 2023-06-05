@@ -122,7 +122,6 @@
 
     methods: {
       ...mapActions("stepper", [
-        'setDate',
         'fetchUsers',
         'updateBedClassification',
       ]),

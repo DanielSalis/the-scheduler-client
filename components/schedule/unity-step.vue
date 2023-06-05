@@ -71,12 +71,14 @@
       ...mapActions("stepper", ['setUnity']),
       ...mapActions("stepper", ['fetchBeds']),
       ...mapActions("stepper", ['fetchShifts']),
+      ...mapActions("stepper", ['setUserCreator']),
 
       goToNextStep(){
         if(this.$refs['unity-form'].validate()){
           this.setUnity(this.unity)
           this.fetchBeds(this.unity)
           this.fetchShifts()
+          this.setUserCreator(this.getAuthData())
           this.$emit('change', 'next')
         }
       },
