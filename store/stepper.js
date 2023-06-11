@@ -1,6 +1,7 @@
 export const state = () => ({
+  userCreator: null,
   unity: null,
-  date: null,
+  operationalDay: null,
   availableShifts: [],
   shift: null,
   availiableBeds: [],
@@ -10,8 +11,9 @@ export const state = () => ({
 });
 
 export const getters = {
+  getUserCreator: (state) => state.userCreator,
   getUnity: (state) => state.unity,
-  getDate: (state) => state.date,
+  getoperationalDay: (state) => state.operationalDay,
   getAvailableShifts: (state) => state.availableShifts,
   getShift: (state) => state.shift,
   getavAiliableBeds: (state) => state.availiableBeds,
@@ -21,11 +23,14 @@ export const getters = {
 };
 
 export const mutations = {
+  setUserCreator(state, value) {
+    state.userCreator = value;
+  },
   setUnity(state, value) {
     state.unity = value;
   },
-  setDate(state, value) {
-    state.date = value;
+  setOperationalDay(state, value) {
+    state.operationalDay = value;
   },
   setAvailableShifts(state, value) {
     state.availableShifts = value;
@@ -109,11 +114,32 @@ export const actions = {
     })
   },
 
+  async finishSchedule(store){
+    const { state } = store
+    try {
+      const scheduleObj = {
+        operational_day: state.operationalDay,
+        unity_id: state.unity.id,
+        creator_user_id: state.userCreator.id,
+        shift_id: state.shift.id,
+        users_beds: state.selectedUsers,
+      }
+      debugger
+      await this.$axios.post(`/schedule/create`, scheduleObj)
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async setUserCreator(state, value) {
+    state.commit("setUserCreator", value);
+  },
+
   async setUnity(state, value) {
     state.commit("setUnity", value);
   },
-  async setDate(state, value) {
-    state.commit("setDate", value);
+  async setOperationalDay(state, value) {
+    state.commit("setOperationalDay", value);
   },
   async setShift(state, value) {
     state.commit("setShift", value);

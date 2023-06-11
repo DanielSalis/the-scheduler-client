@@ -186,15 +186,17 @@
     },
     methods: {
       ...mapActions("stepper", [
-        'setSelectedUsers'
+        'setSelectedUsers',
+        'finishSchedule'
       ]),
 
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
-      goToNextStep(){
+      async goToNextStep(){
         if(confirm("Deseja finalizar o dimensionamento?")){
-          this.setSelectedUsers(this.users)
+          await this.setSelectedUsers(this.users)
+          await this.finishSchedule()
           console.log("Terminou");
         }
       },
