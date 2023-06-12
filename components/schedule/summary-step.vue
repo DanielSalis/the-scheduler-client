@@ -49,6 +49,7 @@
         class="summary-step__form-container "
       >
         <v-data-table
+          ref="myTable"
           :headers="headers"
           :items="users"
           sort-by="name"
@@ -113,7 +114,7 @@
 
         <v-btn
           color="primary"
-          @click="goToNextStep()"
+          @click="exportToPdf()"
         >
           Exportar
         </v-btn>
@@ -124,12 +125,14 @@
 
 <script>
   import { mapState, mapActions } from 'vuex'
+  import html2pdf from 'html2pdf.js';
 
   export default {
     name: "SummaryStep",
     data() {
       return {
         beds: null,
+        teste: null,
         users:[],
         chips: [],
         filteredChips: [],
@@ -199,6 +202,18 @@
           await this.finishSchedule()
           console.log("Terminou");
         }
+      },
+      async exportToPdf(){
+        const html = this.$refs["summary-form"].$el.innerHTML
+        const element = html;
+        const opt = {
+          margin:       0.5,
+          filename:     'converted.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save();
       },
       selectChip(event, row){
         if(event.length <= 0) return
