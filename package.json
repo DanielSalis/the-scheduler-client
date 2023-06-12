@@ -21,6 +21,7 @@
     "bdd-lazy-var": "^2.6.1",
     "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.19.3",
+    "html2pdf.js": "^0.10.1",
     "jest-jasmine2": "^29.0.1",
     "nuxt": "^2.15.8",
     "sass": "^1.54.3",
