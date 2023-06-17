@@ -50,8 +50,10 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    baseURL: 'http://localhost:3333', // Used as fallback if no runtime config is provided
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: process.env.NUXT_ENV_BASE_URL || 'http://localhost:3333/'
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
