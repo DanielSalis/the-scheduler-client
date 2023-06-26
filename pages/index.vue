@@ -3,8 +3,11 @@
     <div
       v-for="route,index in routeItems"
       :key="index"
+      style="width: 100%;"
     >
-      <div class="text-h5 ml-3">
+      <div
+        class="text-h5 ml-3"
+      >
         {{ route.name }}
       </div>
       <v-row
@@ -50,6 +53,7 @@
 
 <script>
   import gContainer from '~/components/g-container.vue';
+  import {mapGetters} from 'vuex'
   export default{
     name: "HomePage",
     components: {
@@ -59,33 +63,38 @@
       return {
         routeItems: [
           {
-            name: "Admin",
+            name: "Administração",
             tools: [
               {
                 name: 'Usuários',
-                description: 'Crie / Edite / Delete / Atualize usuários',
+                description: 'Atualize Usuários',
                 route:"/admin/users"
               },
               {
                 name: 'Redes Hospitalares',
-                description: 'Crie / Edite / Delete / Atualize Redes',
+                description: 'Atualize Redes',
                 route:"/admin/companies"
               },
               {
                 name: 'Hospitais',
-                description: 'Crie / Edite / Delete / Atualize Hospitais',
+                description: 'Atualize Hospitais',
                 route:"/admin/hospitals"
               },
               {
                 name: 'Unidades',
-                description: 'Crie / Edite / Delete / Atualize Unidades',
+                description: 'Atualize Unidades',
                 route:"/admin/unities"
               },
               {
                 name: 'Leitos',
-                description: 'Crie / Edite / Delete / Atualize Leitos',
+                description: 'Atualize Leitos',
                 route:"/admin/beds"
               },
+            ]
+          },
+          {
+            name: "Ferramentas",
+            tools: [
               {
                 name: 'Dimensionamento',
                 description: 'Distribua as responsabilidades de seu time e crie um dimensionamento',
@@ -94,6 +103,15 @@
             ]
           },
         ]
+      }
+    },
+    computed: {
+      ...mapGetters("auth", ['getAuthData']),
+      availableRoutes(){
+        if(this.getAuthData.user_role === 'Admin'){
+          return this.routeItems
+        }
+        return null
       }
     },
     methods: {
