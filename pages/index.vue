@@ -64,7 +64,7 @@
         routeItems: [
           {
             availableFor: ['Admin'],
-            name: "Administração",
+            name: "Admin",
             tools: [
               {
                 name: 'Usuários',
