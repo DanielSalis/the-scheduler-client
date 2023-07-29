@@ -8,22 +8,20 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapGetters } from 'vuex';
   import GNavigator from '~/components/g-navigator.vue';
   export default {
     name: 'AdminLayout',
     components: {
       GNavigator
     },
-    beforeMount() {
-      const auth = this.$cookies.get('auth')
-      if(!auth){
-        this.$router.push('/login')
-      }
-      this.setAuthData(auth)
+    computed: {
+      ...mapGetters("auth", ['getAuthData']),
     },
-    methods: {
-      ...mapActions("auth",['setAuthData']),
+    beforeMount() {
+      if(this.getAuthData && this.getAuthData.user_role?.name !== 'Admin'){
+        return this.$router.push('/')
+      }
     },
   }
 </script>

@@ -26,7 +26,7 @@
           active-class="primary--text text--accent-4"
         >
           <v-list-item
-            v-for="item,index in items"
+            v-for="item,index in availableRoutes"
             :key="index"
             @click="$router.push(item.route)"
           >
@@ -52,43 +52,62 @@
           icon:'mdi-home',
           name:'Home',
           route:'/',
+          availableFor:['Admin', 'Enfermeiro'],
         },
         {
           icon:'mdi-account',
           name:'Usuários',
           route:'/admin/users',
+          availableFor: ['Admin'],
         },
         {
           icon:'mdi-domain',
           name:'Redes',
           route:'/admin/companies',
+          availableFor: ['Admin'],
+
         },
         {
           icon:'mdi-hospital-building',
           name:'Hospitais',
           route:'/admin/hospitals',
+          availableFor: ['Admin'],
         },
         {
           icon:'mdi-hospital-box',
           name:'Unidades',
           route:'/admin/unities',
+          availableFor: ['Admin'],
         },
         {
           icon:'mdi-bed',
           name:'Leitos',
           route:'/admin/beds',
+          availableFor: ['Admin'],
         },
         {
           icon:'mdi-exit-to-app',
           name:'Sair',
           route:'/login',
+          availableFor: ['Admin', 'Enfermeiro'],
         }
       ]
     }),
     computed:{
       ...mapGetters("auth", ['getAuthData']),
+
       userName(){
         return this.getAuthData.name
+      },
+
+      availableRoutes() {
+        const routes = this.items.filter((route)=>{
+          if(route.availableFor.includes(this.getAuthData.user_role.name)){
+            return route
+          }
+        })
+
+        return routes
       }
     },
   }

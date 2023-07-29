@@ -1,7 +1,7 @@
 <template>
   <gContainer class="home-page__container">
     <div
-      v-for="route,index in routeItems"
+      v-for="route,index in availableRoutes"
       :key="index"
       style="width: 100%;"
     >
@@ -63,6 +63,7 @@
       return {
         routeItems: [
           {
+            availableFor: ['Admin'],
             name: "Administração",
             tools: [
               {
@@ -93,6 +94,7 @@
             ]
           },
           {
+            availableFor: ['Admin', 'Enfermeiro'],
             name: "Ferramentas",
             tools: [
               {
@@ -108,10 +110,15 @@
     computed: {
       ...mapGetters("auth", ['getAuthData']),
       availableRoutes(){
-        if(this.getAuthData.user_role === 'Admin'){
-          return this.routeItems
-        }
-        return null
+        const routes = [];
+
+        this.routeItems.forEach(routeItem => {
+          if(routeItem.availableFor.includes(this.getAuthData.user_role.name)){
+            routes.push(routeItem)
+          }
+        });
+
+        return routes
       }
     },
     methods: {
