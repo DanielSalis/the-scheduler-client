@@ -17,17 +17,18 @@
       </div>
 
       <p
-        v-if="!availableChips"
+        v-if="availableChips.length === 0"
         class="text-subtitle-2 mt-4"
       >
-        Leitos não selecionados
+        Todos os leitos foram selecionados 🙂
       </p>
+
 
       <p
         v-else
         class="text-subtitle-2 mt-4"
       >
-        Todos os leitos foram selecionados 🙂
+        Leitos não selecionados
       </p>
 
       <div
