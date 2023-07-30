@@ -57,11 +57,19 @@
           class="elevation-1"
         >
           <template #item.workload="{item: row}">
-            <div v-if="row.workload">
-              {{ row.workload }} minutos
-            </div>
-            <div v-else>
-              -
+            <div style="display: flex; text-wrap: nowrap">
+              <div v-if="row.workload">
+                {{ row.workload }} minutos
+              </div>
+              <v-icon
+                v-if="row.workload >= 400"
+                color="error"
+              >
+                mdi-alert
+              </v-icon>
+              <div v-else-if="!row.workload">
+                -
+              </div>
             </div>
           </template>
 
@@ -248,12 +256,7 @@
 }
 
 .summary-step__form-container{
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  min-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
   margin-top: 8px;
 }
 
@@ -264,8 +267,8 @@
 }
 
 .summary-step__actions-container{
-  width: 100%;
-  max-width: 400px;
+  margin: 0;
+  max-width: 800px;
 }
 
 .summary-step__actions-chip{
