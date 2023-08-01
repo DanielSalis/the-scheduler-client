@@ -102,7 +102,7 @@
 
       availableRoutes() {
         const routes = this.items.filter((route)=>{
-          if(route.availableFor.includes(this.getAuthData.user_role.name)){
+          if(route.availableFor.includes(this.getAuthData?.user_role?.name)){
             return route
           }
         })

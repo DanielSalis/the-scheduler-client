@@ -24,10 +24,10 @@
           :headers="headers"
           :items="localAvailiableBeds"
           sort-by="name"
-          class="elevation-1"
-          :items-per-page="5"
+          class="elevation-1 bed-step__form-table"
+          :items-per-page="4"
           :footer-props="{
-            'items-per-page-options': [5, 10, 15]
+            'items-per-page-options': [4, 8, 12, 16]
           }"
         >
           <template #item.action="{ item, index }">
@@ -148,8 +148,6 @@
 .bed-step__container{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  // height: calc(100vh - 240px);
 }
 
 .bed-step__form-container{

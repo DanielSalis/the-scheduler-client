@@ -1,5 +1,5 @@
 <template>
-  <gContainer class="admin-companies-page-container">
+  <gContainer class="admin-beds-page-container">
     <v-card>
       <v-toolbar
         flat
@@ -104,7 +104,7 @@
 </script>
 
 <style lang="scss" scoped>
-.admin-companies-page-container{
+.admin-beds-page-container{
   width: 100%;
   margin-top: 76px;
 }

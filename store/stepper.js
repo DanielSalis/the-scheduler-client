@@ -124,10 +124,10 @@ export const actions = {
         shift_id: state.shift.id,
         users_beds: state.selectedUsers,
       }
-      debugger
       await this.$axios.post(`/schedule/create`, scheduleObj)
+      return true
     } catch (error) {
-      console.log(error);
+      return false
     }
   },
 

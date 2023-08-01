@@ -1,5 +1,8 @@
 <template>
-  <v-app class="admin-layout">
+  <v-app
+    v-if="shouldRender"
+    class="admin-layout"
+  >
     <GNavigator />
     <main class="admin-layout__content">
       <Nuxt />
@@ -8,20 +11,36 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
   import GNavigator from '~/components/g-navigator.vue';
   export default {
     name: 'AdminLayout',
     components: {
       GNavigator
     },
+    data() {
+      return {
+        shouldRender: false
+      }
+    },
     computed: {
       ...mapGetters("auth", ['getAuthData']),
     },
-    beforeMount() {
+    async beforeMount() {
+      const auth = this.$cookies.get('auth')
+      if(!auth){
+        this.$router.push('/login')
+      }
+      await this.setAuthData(auth)
+
       if(this.getAuthData && this.getAuthData.user_role?.name !== 'Admin'){
         return this.$router.push('/')
       }
+
+      this.shouldRender = true;
+    },
+    methods: {
+      ...mapActions("auth",['setAuthData']),
     },
   }
 </script>
