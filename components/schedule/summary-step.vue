@@ -54,7 +54,7 @@
           :headers="headers"
           :items="users"
           sort-by="name"
-          class="elevation-1"
+          class="elevation-1 summary-step__form-table"
         >
           <template #item.workload="{item: row}">
             <div style="display: flex; text-wrap: nowrap">
@@ -63,7 +63,13 @@
               </div>
               <v-icon
                 v-if="row.workload >= 400"
-                color="error"
+                color="#ff5252"
+              >
+                mdi-alert
+              </v-icon>
+              <v-icon
+                v-if="row.workload <= 300"
+                color="#82b1ff"
               >
                 mdi-alert
               </v-icon>
@@ -103,6 +109,28 @@
             </v-container>
           </template>
         </v-data-table>
+
+        <div class="summary-step__form-caption">
+          <div>
+            <v-icon color="#ff5252">
+              mdi-alert
+            </v-icon>
+            <span>Muitas horas trabalhadas</span>
+          </div>
+          <div>
+            <v-icon color="#82b1ff">
+              mdi-alert
+            </v-icon>
+            <span>Poucas horas trabalhadas</span>
+          </div>
+          <v-chip
+            v-for="(item,index) in classifications"
+            :key="index"
+            :color="item.color"
+          >
+            {{ item.name }}
+          </v-chip>
+        </div>
       </v-form>
 
       <div class="summary-step__button-group mt-2">
@@ -129,6 +157,25 @@
         </v-btn>
       </div>
     </div>
+    <v-dialog
+      v-model="dialogLoading"
+      persistent
+      width="1024"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          Carregando dimensionamento
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-stepper-content>
 </template>
 
@@ -140,6 +187,7 @@
     name: "SummaryStep",
     data() {
       return {
+        dialogLoading: false,
         beds: null,
         teste: null,
         users:[],
@@ -166,6 +214,7 @@
       ...mapState('stepper', [
         'selectedUsers',
         'availiableBeds',
+        'classifications'
       ]),
 
       availableChips(){
@@ -199,17 +248,40 @@
     methods: {
       ...mapActions("stepper", [
         'setSelectedUsers',
-        'finishSchedule'
+        'finishSchedule',
       ]),
 
       goToPrevStep(){
         this.$emit('change', 'prev')
       },
+
+      runUserVerifications() {
+        const inconsistentHoursUsers = []
+
+        this.users.forEach((user)=> {
+          if(user.workload >= 400 || user.workload <= 300) {
+            inconsistentHoursUsers.push(user.name)
+          }
+        })
+
+        return inconsistentHoursUsers
+      },
+
       async goToNextStep(){
-        if(confirm("Deseja finalizar o dimensionamento?")){
-          await this.setSelectedUsers(this.users)
-          await this.finishSchedule()
-          console.log("Terminou");
+        const wrongUsers = this.runUserVerifications().join('\n')
+        if(confirm(`Os funcionários com tempos incorretos:\n${wrongUsers}\n\nDeseja continuar?`)){
+          if(confirm("Deseja finalizar o dimensionamento?")){
+            this.dialogLoading=true;
+            await this.setSelectedUsers(this.users);
+            const hasFinished = await this.finishSchedule()
+            if(hasFinished){
+              this.dialogLoading=false;
+              console.log("Terminou");
+            }else{
+              this.dialogLoading=false;
+              alert("Ocorreu um erro")
+            }
+          }
         }
       },
       async exportToPdf(){
@@ -217,10 +289,10 @@
         const element = html;
         const opt = {
           margin:       0.5,
-          filename:     'converted.pdf',
+          filename:     'dimensionamento.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2 },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+          html2canvas:  { scale: 1 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
         };
         html2pdf().from(element).set(opt).save();
       },
@@ -255,9 +327,25 @@
   justify-content: space-between;
 }
 
-.summary-step__form-container{
-  width: 100%;
+.summary-step__form-container {
+  max-width: 100%;
   margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-step__form-table {
+  margin: 0 16px;
+}
+
+.summary-step__form-caption {
+  margin-top: 12px;
+  margin-left: 16px;
+  margin-right: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 .summary-step__button-group {
@@ -268,7 +356,6 @@
 
 .summary-step__actions-container{
   margin: 0;
-  max-width: 800px;
 }
 
 .summary-step__actions-chip{
