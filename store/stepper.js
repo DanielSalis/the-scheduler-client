@@ -116,6 +116,15 @@ export const actions = {
 
   async finishSchedule(store){
     const { state } = store
+
+    let workload = 0;
+
+    debugger
+
+    state.selectedUsers.forEach(user => {
+      workload = workload + user.workload
+    });
+
     try {
       const scheduleObj = {
         operational_day: state.operationalDay,
@@ -123,6 +132,7 @@ export const actions = {
         creator_user_id: state.userCreator.id,
         shift_id: state.shift.id,
         users_beds: state.selectedUsers,
+        workload: workload
       }
       await this.$axios.post(`/schedule/create`, scheduleObj)
       return true
