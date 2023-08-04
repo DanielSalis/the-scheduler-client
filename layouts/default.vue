@@ -1,6 +1,6 @@
 <template>
   <v-app class="default-layout">
-    <GNavigator />
+    <GNavigator style="z-index: 99;" />
     <main class="default-layout__content">
       <Nuxt />
     </main>
