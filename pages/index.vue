@@ -104,6 +104,17 @@
               }
             ]
           },
+          {
+            availableFor: ['Admin', 'Enfermeiro'],
+            name: "Dashboards",
+            tools: [
+              {
+                name: 'Horas trabalhadas',
+                description: 'Horas trabalhadas por unidades e turnos',
+                route:"/dashboard/mean-workload"
+              }
+            ]
+          },
         ]
       }
     },
