@@ -268,21 +268,26 @@
       },
 
       async goToNextStep(){
-        const wrongUsers = this.runUserVerifications().join('\n')
-        if(confirm(`Os funcionários com tempos incorretos:\n${wrongUsers}\n\nDeseja continuar?`)){
-          if(confirm("Deseja finalizar o dimensionamento?")){
+        const wrongUsers = this.runUserVerifications()
+        if(wrongUsers.length > 0){
+          if(!confirm(`Os funcionários com tempos incorretos:\n${wrongUsers.join('\n')}\n\nDeseja continuar?`)){
+            return;
+          }
+        }
+        if(confirm("Deseja finalizar o dimensionamento?")){
             this.dialogLoading=true;
             await this.setSelectedUsers(this.users);
             const hasFinished = await this.finishSchedule()
             if(hasFinished){
               this.dialogLoading=false;
-              console.log("Terminou");
+              alert("Dimensionamento criado com sucesso!");
+              await this.exportToPdf()
+              this.$router.push("/")
             }else{
               this.dialogLoading=false;
               alert("Ocorreu um erro")
             }
           }
-        }
       },
       async exportToPdf(){
         const html = this.$refs["summary-form"].$el.innerHTML
