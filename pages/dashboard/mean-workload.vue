@@ -52,7 +52,7 @@
           <template #activator="{ on, attrs }">
             <v-text-field
               v-model="filter.start"
-              label="Picker in menu"
+              label="Início"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -99,7 +99,7 @@
           <template #activator="{ on, attrs }">
             <v-text-field
               v-model="filter.end"
-              label="Picker in menu"
+              label="Fim"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -252,7 +252,7 @@
           },
           legend: {
             position: 'right',
-            offsetY: 0
+            offsetY: 250
           },
           fill: {
             opacity: 1
@@ -321,6 +321,12 @@
           const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
           this.series = response.data.series
           this.chartOptions.xaxis.categories = response.data.xaxis;
+          this.filter = {
+            unit: null,
+            shift: null,
+            start: '',
+            end: '',
+          }
         } catch (error) {
           console.log(error);
         }
