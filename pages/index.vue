@@ -91,6 +91,11 @@
                 description: 'Atualize Leitos',
                 route:"/admin/beds"
               },
+              {
+                name: 'Dimensionamentos',
+                description: 'Atualize dimensionamentos',
+                route:"/admin/schedules"
+              },
             ]
           },
           {
