@@ -153,9 +153,11 @@
     <v-card
       v-if="series && chartOptions"
       flat
-      class="mt-5"
+      class="mt-5 px-4 py-4"
     >
       <VueApexCharts
+        v-if="chart"
+        ref="realtimeChart"
         type="bar"
         height="550"
         :options="chartOptions"
@@ -185,6 +187,7 @@
     },
     data() {
       return {
+        chart:true,
         series: null,
         chartOptions: {
           dataLabels: {
@@ -281,12 +284,25 @@
     },
     async fetch(){
       try {
-        const {unityId} = this.getAuthData()
-        await this.$axios.get(`/unity/getAllUnitiesBySibling/${unityId}`).then((response)=>{
-          this.availableUnities = response.data.Unity
-        }).catch(err=>{
-          console.log(err);
-        })
+        const {name} = this.getAuthData().user_role
+        debugger;
+
+        if(name === 'Admin') {
+          await this.$axios.get(`/unity/getAll`).then((response)=>{
+            this.availableUnities = response.data
+          }).catch(err=>{
+            console.log(err);
+          })
+        }
+
+        else {
+          const {unityId} = this.getAuthData()
+          await this.$axios.get(`/unity/getAllUnitiesBySibling/${unityId}`).then((response)=>{
+            this.availableUnities = response.data.Unity
+          }).catch(err=>{
+            console.log(err);
+          })
+        }
 
         await this.$axios.get(`/shift/getAll`).then((response)=>{
           this.availableShifts = response.data
@@ -311,6 +327,7 @@
       ...mapGetters("auth", ['getAuthData']),
 
       async performFilter(){
+        this.chart=false
         try {
           const params = {
             unity_id: this.filter.unity,
@@ -327,6 +344,7 @@
             start: '',
             end: '',
           }
+          this.chart = true
         } catch (error) {
           console.log(error);
         }
