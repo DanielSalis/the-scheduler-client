@@ -153,7 +153,7 @@
     <v-card
       v-if="series && chartOptions"
       flat
-      class="mt-5"
+      class="mt-5 px-4 py-4"
     >
       <VueApexCharts
         v-if="chart"
