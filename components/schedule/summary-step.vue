@@ -10,10 +10,6 @@
         <div class="text-h4">
           Revisão
         </div>
-
-        <div class="text-subtitle-1">
-          Seu dimensionamento está pronto! Agora é só revisar e finalizar
-        </div>
       </div>
 
       <p
@@ -33,7 +29,7 @@
 
       <div
         v-if="availiableBeds"
-        class="mb-4"
+        class="summary-available-beds mb-4"
       >
         <v-chip
           v-for="(item, index) in availableChips"
@@ -88,6 +84,8 @@
                 item-value="id"
                 return-object
                 label="Selecione os leitos"
+                hint="Possível digitar para buscar leitos"
+                persistent-hint
                 multiple
                 solo
                 @change="selectChip($event, row)"
@@ -103,6 +101,15 @@
                     @click:close="remove(row, bed)"
                   >
                     <strong>{{ bed.name }}</strong>
+                  </v-chip>
+                </template>
+                <template #item="{ item: bed }">
+                  <v-chip
+                    :color="bed.classification.color"
+                    label
+                    small
+                  >
+                    {{ `${bed.name} - classificação: ${bed.classification.name}` }}
                   </v-chip>
                 </template>
               </v-combobox>
@@ -127,6 +134,8 @@
             v-for="(item,index) in classifications"
             :key="index"
             :color="item.color"
+            small
+            class="px-4 py-4"
           >
             {{ item.name }}
           </v-chip>
@@ -218,14 +227,15 @@
       ]),
 
       availableChips(){
-        if(!this.chips) return []
+        if(!this.chips || this.chips.length <= 0) return []
         const duplicatedChips = [];
         this.chips.forEach((classification) => {
           if (!this.filteredChips.some((item) => item.id === classification.id)) {
             duplicatedChips.push(classification);
           }
         });
-        return duplicatedChips
+        console.log(duplicatedChips);
+        return this.sortByClassificationName(duplicatedChips)
       }
     },
     watch:{
@@ -250,6 +260,16 @@
         'setSelectedUsers',
         'finishSchedule',
       ]),
+
+      sortByClassificationName(arr) {
+        return arr.sort((a, b) => {
+          const nameA = a.classification.estimated_time;
+          const nameB = b.classification.estimated_time;
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+      },
 
       goToPrevStep(){
         this.$emit('change', 'prev')
@@ -332,6 +352,13 @@
   justify-content: space-between;
 }
 
+.summary-available-beds {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
 .summary-step__form-container {
   max-width: 100%;
   margin-top: 8px;
@@ -348,9 +375,15 @@
   margin-left: 16px;
   margin-right: 16px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 8px;
+
+  @media (min-width: 1000px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 }
 
 .summary-step__button-group {
