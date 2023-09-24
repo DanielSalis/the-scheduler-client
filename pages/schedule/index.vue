@@ -101,6 +101,8 @@
 
 <style lang="scss" ts>
 .schedule-page__container{
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 280px);
 }
 </style>

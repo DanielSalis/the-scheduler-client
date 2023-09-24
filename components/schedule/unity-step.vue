@@ -103,7 +103,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 280px);
+  min-height: calc(100vh - 280px);
 }
 
 .unity-step__modal-container{

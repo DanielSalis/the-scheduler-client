@@ -105,7 +105,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 240px);
+  min-height: calc(100vh - 240px);
 }
 
 .workers-step__form-container{
