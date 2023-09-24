@@ -58,7 +58,7 @@
         unities: [],
         unity: '',
         unitiesRule: [
-          v => !!v || 'Unidad é necessária',
+          v => !!v || 'Unidade é necessária',
         ],
       }
     },
