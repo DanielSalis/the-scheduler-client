@@ -6,15 +6,15 @@
     <div class="bed-step__container">
       <div class="bed-step__titles">
         <div class="text-h4">
-          Classificação dos leitos
+          Classificação dos leitos - {{ unity?.name }}
         </div>
 
         <div class="text-subtitle-1">
-          Atribua a classficição adequada para os leitos disponíveis na unidade selecionada
+          Atribua a classificação desejada aos leitos disponíveis desta unidade
         </div>
       </div>
 
-      <v-form
+      <!-- <v-form
         v-if="localAvailiableBeds"
         ref="beds-form"
         class="bed-step__form-container"
@@ -25,9 +25,9 @@
           :items="localAvailiableBeds"
           sort-by="name"
           class="elevation-1 bed-step__form-table"
-          :items-per-page="4"
+          :items-per-page="16"
           :footer-props="{
-            'items-per-page-options': [4, 8, 12, 16]
+            'items-per-page-options': [4, 8, 12, 16, 32, 64]
           }"
         >
           <template #item.action="{ item, index }">
@@ -51,7 +51,49 @@
             />
           </template>
         </v-data-table>
-      </v-form>
+      </v-form> -->
+
+      <div
+        v-if="filteredBeds && filteredBeds.length > 0 "
+        class="bed-step__beds"
+      >
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Clique aqui e procure o leito desejado"
+          single-line
+          hide-details
+        />
+        <div class="bed-step__beds-container mt-8">
+          <v-card
+            v-for="(item, index) in filteredBeds"
+            :key="index"
+            class="bed-step__beds-item "
+          >
+            <v-card-title>
+              <span>{{ item.name }}</span>
+            </v-card-title>
+            <v-select
+              v-model="item.classification"
+              :value="item.classification"
+              class="mt-4 mb-4"
+              :style="{backgroundColor:item.classification.color}"
+              :items="classifications"
+              :rules="classificationRule"
+              item-text="name"
+              return-object
+              label="Classificação"
+              solo
+              @change="updateBedClassification({
+                event: $event,
+                index,
+                item,
+                unity
+              })"
+            />
+          </v-card>
+        </div>
+      </div>
 
       <div class="bed-step__button-group mt-2">
         <v-btn
@@ -83,15 +125,11 @@
         shiftId: '',
         headers: [
           {
-            text: "Id",
-            value: 'id'
-          },
-          {
-            text: "Nome",
+            text: "Nome (clique para ordenar)",
             value: 'name'
           },
           {
-            text: 'Classificação',
+            text: 'Classificação (clique para ordenar)',
             value: 'action',
             sortable: false
           }
@@ -108,6 +146,11 @@
         'classifications',
         'unity'
       ]),
+
+      filteredBeds() {
+          const sortedArray = this.sortByName(this.localAvailiableBeds)
+          return sortedArray.filter(item=>item.name.includes(this.search))
+      },
     },
 
     watch:{
@@ -130,11 +173,19 @@
         'getUnity'
       ]),
 
+      sortByName(arr) {
+        return arr.sort((a, b) => {
+          const nameA = a.name;
+          const nameB = b.name;
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+      },
+
       goToNextStep(){
-        if(this.$refs['beds-form'].validate()){
-          this.fetchUsers(this.unity)
-          this.$emit('change', 'next')
-        }
+        this.fetchUsers(this.unity)
+        this.$emit('change', 'next')
       },
 
       goToPrevStep(){
@@ -158,5 +209,23 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 8px;
+}
+
+.bed-step__beds {
+  display: flex;
+  flex-direction: column;
+}
+
+.bed-step__beds-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.bed-step__beds-item {
+  width: 220px;
 }
 </style>
