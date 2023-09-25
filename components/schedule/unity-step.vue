@@ -31,12 +31,6 @@
 
       <div class="unity-step__button-group">
         <v-btn
-          text
-          @click="goToPrevStep()"
-        >
-          Cancelar
-        </v-btn>
-        <v-btn
           color="primary"
           @click="goToNextStep()"
         >

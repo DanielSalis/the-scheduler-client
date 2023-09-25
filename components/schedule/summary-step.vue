@@ -272,6 +272,8 @@
       },
 
       goToPrevStep(){
+        this.filteredChips = []
+        this.users = []
         this.$emit('change', 'prev')
       },
 

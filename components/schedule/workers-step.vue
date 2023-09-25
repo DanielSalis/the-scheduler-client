@@ -19,14 +19,26 @@
         ref="workers-form"
         class="workers-step__form-container"
       >
-        <v-data-table
-          v-model="selectedUsers"
-          :headers="headers"
-          :items="availableUsers"
-          sort-by="code"
-          class="elevation-1"
-          show-select
-        />
+        <v-card class="workers-step__form-card">
+          <v-card-title>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            />
+          </v-card-title>
+          <v-data-table
+            v-model="selectedUsers"
+            :search="search"
+            :headers="headers"
+            :items="availableUsers"
+            sort-by="code"
+            class="elevation-1"
+            show-select
+          />
+        </v-card>
       </v-form>
 
       <div class="workers-step__button-group mt-2">
@@ -34,7 +46,7 @@
           text
           @click="goToPrevStep()"
         >
-          Cancelar
+          Voltar
         </v-btn>
         <v-btn
           color="primary"
@@ -84,7 +96,9 @@
     methods: {
       ...mapGetters("auth", ['getAuthData']),
       ...mapActions("stepper", [
-        'setSelectedUsers'
+        'setSelectedUsers',
+        'setAvailableUsers',
+        'fetchUsers'
       ]),
 
       goToNextStep(){
@@ -94,6 +108,8 @@
         }
       },
       goToPrevStep(){
+        this.setAvailableUsers([])
+        this.setSelectedUsers([])
         this.$emit('change', 'prev')
       },
     },
@@ -112,9 +128,16 @@
   display: flex;
   flex-direction: row;
   gap: 16px;
-  min-width: 320px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 8px;
+  height: 100%;
 }
+
+.workers-step__form-card {
+  width: 100%;
+  height: 100%;
+}
+
 </style>
