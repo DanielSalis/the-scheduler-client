@@ -48,7 +48,7 @@
           text
           @click="goToPrevStep()"
         >
-          Cancelar
+          Voltar
         </v-btn>
         <v-btn
           color="primary"
