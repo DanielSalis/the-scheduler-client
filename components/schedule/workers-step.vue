@@ -70,16 +70,16 @@
         selectedUsers: [],
         headers: [
           {
-            text: "Matrícula",
+            text: "Matrícula (clique para ordenar)",
             value: 'code'
           },
           {
-            text: "Nome",
+            text: "Nome (clique para ordenar)",
             value: 'name'
           },
           {
-            text: "Email",
-            value: 'email'
+            text: "Cargo (clique para ordenar)",
+            value: 'user_role.name'
           },
         ],
         classificationRule: [
@@ -87,6 +87,11 @@
         ],
       }
     },
+
+    updated() {
+      console.log(this.availableUsers)
+    },
+
     computed: {
       ...mapState('stepper', [
         'availableUsers'
