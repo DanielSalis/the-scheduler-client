@@ -164,4 +164,7 @@ export const actions = {
   async setSelectedUsers(state, value) {
     state.commit("setSelectedUsers", value);
   },
+  async setAvailableUsers(state, value) {
+    state.commit("setAvailableUsers", value);
+  },
 };

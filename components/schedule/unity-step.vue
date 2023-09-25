@@ -31,12 +31,6 @@
 
       <div class="unity-step__button-group">
         <v-btn
-          text
-          @click="goToPrevStep()"
-        >
-          Cancelar
-        </v-btn>
-        <v-btn
           color="primary"
           @click="goToNextStep()"
         >
@@ -58,7 +52,7 @@
         unities: [],
         unity: '',
         unitiesRule: [
-          v => !!v || 'Unidad é necessária',
+          v => !!v || 'Unidade é necessária',
         ],
       }
     },
@@ -103,7 +97,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 280px);
+  min-height: calc(100vh - 280px);
 }
 
 .unity-step__modal-container{

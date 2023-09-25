@@ -77,7 +77,7 @@
           v => !!v || 'Classificação é necessária',
         ],
         unitiesRule: [
-          v => !!v || 'Unidad é necessária',
+          v => !!v || 'Unidade é necessária',
         ],
       }
     },

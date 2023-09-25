@@ -48,7 +48,7 @@
           text
           @click="goToPrevStep()"
         >
-          Cancelar
+          Voltar
         </v-btn>
         <v-btn
           color="primary"
@@ -112,7 +112,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 280px);
+  min-height: calc(100vh - 280px);
 }
 
 .date-step__date-container {
