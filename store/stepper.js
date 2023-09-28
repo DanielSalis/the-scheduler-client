@@ -119,8 +119,6 @@ export const actions = {
 
     let workload = 0;
 
-    debugger
-
     state.selectedUsers.forEach(user => {
       workload = workload + user.workload
     });

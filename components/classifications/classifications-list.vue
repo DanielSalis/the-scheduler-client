@@ -30,12 +30,12 @@
         >
           mdi-pencil
         </v-icon>
-        <v-icon
+        <!-- <v-icon
           small
           @click="deleteItem(item)"
         >
           mdi-delete
-        </v-icon>
+        </v-icon> -->
       </template>
       <template #no-data>
         <v-btn
@@ -199,6 +199,8 @@
 
       async saveInfo(){
         try{
+          debugger
+          console.log(this.classification);
           await this.$axios.put("/classification/updateById", this.classification)
           await alert("Rede atualizada com sucesso")
           this.$router.go()

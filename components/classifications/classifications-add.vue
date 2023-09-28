@@ -7,18 +7,26 @@
         @submit.prevent="addCompany"
       >
         <v-text-field
-          v-model="companyInfo.name"
+          v-model="classificationInfo.name"
           :rules="nameRules"
           solo
-          label="Nome da rede"
+          label="Nome da classificação"
           required
         />
 
         <v-text-field
-          v-model="companyInfo.address"
-          :rules="addressRules"
+          v-model="classificationInfo.address"
+          :rules="colorRules"
           solo
-          label="Endereço da rede"
+          label="Cor"
+          required
+        />
+
+        <v-text-field
+          v-model="classificationInfo.estimated_time"
+          :rules="estimatedTimeRule"
+          solo
+          label="Tempo estimado"
           required
         />
 
@@ -41,22 +49,27 @@
     name: "ClassificationsAdd",
     data() {
       return {
-        companyInfo: {
+        classificationInfo: {
           name: '',
-          address: '',
+          color: '',
+          estimated_time: 0
         },
         nameRules: [
           v => !!v || 'Nome é necessário',
           v => v.length >= 10 || 'Nome precisa ter no mínimo 8 caracteres',
         ],
-        addressRules: [
-          v => !!v || 'Endereço é necessário',
+        colorRules: [
+          v => !!v || 'Campo Cor é necessário',
+        ],
+        estimatedTimeRule: [
+          v => !!v || 'Tempo estimado é necessário',
+          v => v > 0 || 'Tempo precisa ser maior que 0',
         ],
       }
     },
     methods: {
       async addCompany(){
-        await this.$axios.post("/company/create", this.companyInfo).then((response)=>{
+        await this.$axios.post("/company/create", this.classificationInfo).then((response)=>{
           console.log(response);
           alert("Rede criada com sucesso!")
           this.$router.go('/admin/companies')

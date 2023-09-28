@@ -155,6 +155,7 @@
       flat
       class="mt-5 px-4 py-4"
     >
+      <span>{{ usersCount }}</span>
       <VueApexCharts
         v-if="chart"
         ref="realtimeChart"
@@ -189,6 +190,7 @@
       return {
         chart:true,
         series: null,
+        usersCount: 0,
         chartOptions: {
           dataLabels: {
             enabled: true,
@@ -261,13 +263,23 @@
             opacity: 1
           },
           title: {
-            text: "Minutos alocados por dia",
+            text: "Média de minutos por usuário",
             floating: 0,
             offsetY: 0,
             align: "center",
             style: {
               color: "#444"
             }
+          },
+          theme: {
+            mode: 'dark',
+            palette: 'palette1',
+            monochrome: {
+              enabled: false,
+              color: '#255aee',
+              shadeTo: 'light',
+              shadeIntensity: 0.65
+            },
           }
         },
         menuStart: false,
@@ -316,7 +328,6 @@
         }
 
         const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
-
         this.series = response.data.series
         this.chartOptions.xaxis.categories = response.data.xaxis;
       } catch (error) {
@@ -336,6 +347,9 @@
             end_date: this.filter.end,
           }
           const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
+
+          debugger
+
           this.series = response.data.series
           this.chartOptions.xaxis.categories = response.data.xaxis;
           this.filter = {
@@ -344,7 +358,9 @@
             start: '',
             end: '',
           }
-          this.chart = true
+          this.chart = true;
+          const users_quantity = response.data.series.map(data=>data.users_quantity);
+          this.usersCount = users_quantity.map(item=>item[0])
         } catch (error) {
           console.log(error);
         }

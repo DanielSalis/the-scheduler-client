@@ -92,6 +92,11 @@
                 route:"/admin/beds"
               },
               {
+                name: 'Calssificações',
+                description: 'Atualize as propriedades de cada classificação',
+                route:"/admin/classifications"
+              },
+              {
                 name: 'Dimensionamentos',
                 description: 'Atualize dimensionamentos',
                 route:"/admin/schedules"

@@ -14,12 +14,12 @@
           </v-icon>
           Listar
         </v-tab>
-        <v-tab>
+        <!-- <v-tab>
           <v-icon left>
             mdi-plus
           </v-icon>
           Adicionar
-        </v-tab>
+        </v-tab> -->
 
         <v-tab-item>
           <classificationsList
@@ -31,7 +31,6 @@
         <v-tab-item>
           <classificationsAdd
             v-if="classificationData && classificationData.length"
-            :unities="unitiesData"
             :classifications="classificationData"
           />
         </v-tab-item>

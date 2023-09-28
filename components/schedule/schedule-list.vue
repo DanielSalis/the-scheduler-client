@@ -5,7 +5,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Pesquise por qualquer informação da tabela"
         single-line
         hide-details
       />
@@ -14,6 +14,8 @@
       :search="search"
       :headers="headers"
       :items="schedules"
+      sort-by="operational_day"
+      sort-desc="desc"
       class="elevation-1"
     >
       <template #item.actions="{ item }">

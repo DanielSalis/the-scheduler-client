@@ -57,7 +57,7 @@
             value: 'id'
           },
           {
-            text: "Dia de operação",
+            text: "Dia de operação (ano-mes-dia)",
             value: 'operational_day'
           },
           {
@@ -81,7 +81,7 @@
             value: 'cancelled'
           },
           {
-            text: 'ACTIONS',
+            text: 'Ações',
             value: 'actions',
             sortable: false
           }
