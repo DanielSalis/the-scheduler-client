@@ -202,7 +202,7 @@
           },
           chart: {
             type: 'bar',
-            height: 550,
+            height: 600,
             stacked: false,
             toolbar: {
               show: true
@@ -225,6 +225,7 @@
             bar: {
               horizontal: false,
               borderRadius: 10,
+              columnWidth: '55%',
               dataLabels: {
                 total: {
                   enabled: true,
@@ -252,12 +253,18 @@
               formatter: function (val) {
                 return val + " minutos";
               }
+            },
+            title: {
+              text: 'Média de minutos por funcionário'
             }
 
           },
           legend: {
-            position: 'right',
-            offsetY: 250
+            position: 'bottom',
+            itemMargin: {
+              horizontal: 5,
+              vertical: 10
+            },
           },
           fill: {
             opacity: 1
@@ -286,7 +293,7 @@
         menuEnd: false,
         filter: {
           start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
-          end: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+          end: '',
           unity: null,
           shift: null,
         },
@@ -323,8 +330,7 @@
         })
 
         const params = {
-          start_date: "2023-07-31",
-          end_date: "2023-08-06",
+          start_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         }
 
         const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
