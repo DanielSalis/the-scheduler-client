@@ -27,8 +27,12 @@
         Leitos não selecionados
       </p>
 
+      <span v-if="selectedUsers.length < 1">
+        Selecione pelo menos um usuário
+      </span>
+
       <div
-        v-if="availiableBeds"
+        v-if="availiableBeds && selectedUsers && selectedUsers.length > 0"
         class="summary-available-beds mb-4"
       >
         <v-chip
@@ -148,9 +152,10 @@
             text
             @click="goToPrevStep()"
           >
-            Cancelar
+            Voltar
           </v-btn>
           <v-btn
+            v-if="selectedUsers && selectedUsers.length > 0"
             color="primary"
             @click="goToNextStep()"
           >
@@ -159,6 +164,7 @@
         </div>
 
         <v-btn
+          v-if="selectedUsers && selectedUsers.length > 0"
           color="primary"
           @click="exportToPdf()"
         >
