@@ -155,7 +155,7 @@
       flat
       class="mt-5 px-4 py-4"
     >
-      <span>{{ usersCount }}</span>
+      <!-- <span>{{ usersCount }}</span> -->
       <VueApexCharts
         v-if="chart"
         ref="realtimeChart"
