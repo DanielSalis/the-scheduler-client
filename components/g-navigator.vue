@@ -86,6 +86,12 @@
           availableFor: ['Admin'],
         },
         {
+          icon:'mdi-label',
+          name:'Classificações',
+          route:'/admin/classifications',
+          availableFor: ['Admin'],
+        },
+        {
           icon:'mdi-exit-to-app',
           name:'Sair',
           route:'/login',
