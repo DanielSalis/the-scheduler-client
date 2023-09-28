@@ -10,7 +10,7 @@
           v-model="unityInfo.name"
           :rules="nameRules"
           solo
-          label="Nome do hospital"
+          label="Nome da unidade"
           required
         />
 
