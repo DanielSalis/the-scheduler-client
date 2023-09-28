@@ -107,7 +107,7 @@ export const actions = {
 
   async fetchUsers(state, unity){
     const {id} = unity
-    await this.$axios.get(`/user/getAllByUnityId/${id}`).then((response)=>{
+    await this.$axios.get(`/user/getAllByHospital/${id}`).then((response)=>{
       state.commit("setAvailableUsers", response.data)
     }).catch(err=>{
       console.log(err);
