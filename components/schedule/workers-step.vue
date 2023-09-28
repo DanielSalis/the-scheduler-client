@@ -10,7 +10,7 @@
         </div>
 
         <div class="text-subtitle-1">
-          Selecione os funcionários que estarão disponíveis para a data e turno previamente selecionados
+          Selecione os funcionários que estarão disponíveis para serem escalados
         </div>
       </div>
 
