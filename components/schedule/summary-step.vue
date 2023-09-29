@@ -153,6 +153,20 @@
           >
             {{ item.name }}
           </v-chip>
+          <v-col
+            style="margin-left: auto;"
+            cols="12"
+            sm="3"
+          >
+            <v-textarea
+              label="Assinatura"
+              auto-grow
+              outlined
+              rows="1"
+              row-height="15"
+              disabled
+            />
+          </v-col>
         </div>
       </v-form>
 
@@ -229,7 +243,7 @@
             sortable: false
           },
           {
-            text: "Carga horária",
+            text: "Carga de trabalho",
             value: 'workload'
           },
           {
@@ -333,13 +347,14 @@
       },
       async exportToPdf(){
         const html = this.$refs["summary-form"].$el.innerHTML
+        debugger;
         const element = html;
         const opt = {
-          margin:       0.5,
+          margin:       0.2,
           filename:     'dimensionamento.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
           html2canvas:  { scale: 1 },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+          jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
         };
         html2pdf().from(element).set(opt).save();
       },
