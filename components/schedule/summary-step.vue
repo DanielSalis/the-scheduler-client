@@ -336,7 +336,7 @@
       async goToNextStep(){
         const wrongUsers = this.runUserVerifications()
         if(wrongUsers.length > 0){
-          if(!confirm(`Os funcionários com tempos incorretos:\n${wrongUsers.join('\n')}\n\nDeseja continuar?`)){
+          if(!confirm(`Os funcionários com carga de trabalho inadequada:\n${wrongUsers.join('\n')}\n\nDeseja continuar?`)){
             return;
           }
         }
