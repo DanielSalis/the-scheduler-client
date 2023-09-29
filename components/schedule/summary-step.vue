@@ -119,6 +119,16 @@
               </v-combobox>
             </v-container>
           </template>
+
+          <template #item.extraActions>
+            <v-textarea
+              style="margin-top: 4px;"
+              rows="2"
+              label="Escreva aqui as atividades extras, caso necessário"
+              auto-grow
+              solo
+            />
+          </template>
         </v-data-table>
 
         <div class="summary-step__form-caption">
@@ -221,6 +231,10 @@
           {
             text: "Carga horária",
             value: 'workload'
+          },
+          {
+            text: "Atividades extras",
+            value: 'extraActions'
           }
         ],
       }
