@@ -8,9 +8,16 @@
     >
       <div class="summary-step__titles">
         <div class="text-h4">
-          Revisão
+          {{ `Revisão do dimensionamento` }}
         </div>
       </div>
+
+      <span>
+        {{ `Turno - ${shift?.name}` }}
+      </span>
+      <span>
+        {{ `Unidade: ${unity?.name}` }}
+      </span>
 
       <p
         v-if="availableChips.length === 0"
@@ -165,6 +172,7 @@
               rows="1"
               row-height="15"
               disabled
+              hide-details
             />
           </v-col>
         </div>
@@ -257,7 +265,9 @@
       ...mapState('stepper', [
         'selectedUsers',
         'availiableBeds',
-        'classifications'
+        'classifications',
+        'unity',
+        'shift'
       ]),
 
       availableChips(){
@@ -404,13 +414,13 @@
 }
 
 .summary-step__form-table {
-  margin: 0 16px;
+  margin: 0 4px;
 }
 
 .summary-step__form-caption {
   margin-top: 12px;
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -419,7 +429,7 @@
 
   @media (min-width: 1000px) {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
   }
 }
 
