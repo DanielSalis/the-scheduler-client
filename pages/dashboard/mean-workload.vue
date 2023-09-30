@@ -155,6 +155,7 @@
       flat
       class="mt-5 px-4 py-4"
     >
+      <!-- <span>{{ usersCount }}</span> -->
       <VueApexCharts
         v-if="chart"
         ref="realtimeChart"
@@ -189,6 +190,7 @@
       return {
         chart:true,
         series: null,
+        usersCount: 0,
         chartOptions: {
           dataLabels: {
             enabled: true,
@@ -200,7 +202,7 @@
           },
           chart: {
             type: 'bar',
-            height: 550,
+            height: 600,
             stacked: false,
             toolbar: {
               show: true
@@ -223,6 +225,7 @@
             bar: {
               horizontal: false,
               borderRadius: 10,
+              columnWidth: '55%',
               dataLabels: {
                 total: {
                   enabled: true,
@@ -250,31 +253,47 @@
               formatter: function (val) {
                 return val + " minutos";
               }
+            },
+            title: {
+              text: 'Média de minutos por funcionário'
             }
 
           },
           legend: {
-            position: 'right',
-            offsetY: 250
+            position: 'bottom',
+            itemMargin: {
+              horizontal: 5,
+              vertical: 10
+            },
           },
           fill: {
             opacity: 1
           },
           title: {
-            text: "Minutos alocados por dia",
+            text: "Média de minutos por usuário",
             floating: 0,
             offsetY: 0,
             align: "center",
             style: {
               color: "#444"
             }
+          },
+          theme: {
+            mode: 'dark',
+            palette: 'palette1',
+            monochrome: {
+              enabled: false,
+              color: '#255aee',
+              shadeTo: 'light',
+              shadeIntensity: 0.65
+            },
           }
         },
         menuStart: false,
         menuEnd: false,
         filter: {
           start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
-          end: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+          end: '',
           unity: null,
           shift: null,
         },
@@ -311,12 +330,10 @@
         })
 
         const params = {
-          start_date: "2023-07-31",
-          end_date: "2023-08-06",
+          start_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         }
 
         const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
-
         this.series = response.data.series
         this.chartOptions.xaxis.categories = response.data.xaxis;
       } catch (error) {
@@ -336,6 +353,9 @@
             end_date: this.filter.end,
           }
           const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
+
+          debugger
+
           this.series = response.data.series
           this.chartOptions.xaxis.categories = response.data.xaxis;
           this.filter = {
@@ -344,7 +364,9 @@
             start: '',
             end: '',
           }
-          this.chart = true
+          this.chart = true;
+          const users_quantity = response.data.series.map(data=>data.users_quantity);
+          this.usersCount = users_quantity.map(item=>item[0])
         } catch (error) {
           console.log(error);
         }

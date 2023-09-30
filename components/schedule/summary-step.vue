@@ -8,9 +8,16 @@
     >
       <div class="summary-step__titles">
         <div class="text-h4">
-          Revisão
+          {{ `Revisão do dimensionamento` }}
         </div>
       </div>
+
+      <span>
+        {{ `Turno - ${shift?.name}` }}
+      </span>
+      <span>
+        {{ `Unidade: ${unity?.name}` }}
+      </span>
 
       <p
         v-if="availableChips.length === 0"
@@ -27,8 +34,12 @@
         Leitos não selecionados
       </p>
 
+      <span v-if="selectedUsers.length < 1">
+        Selecione pelo menos um usuário
+      </span>
+
       <div
-        v-if="availiableBeds"
+        v-if="availiableBeds && selectedUsers && selectedUsers.length > 0"
         class="summary-available-beds mb-4"
       >
         <v-chip
@@ -115,6 +126,16 @@
               </v-combobox>
             </v-container>
           </template>
+
+          <template #item.extraActions>
+            <v-textarea
+              style="margin-top: 4px;"
+              rows="2"
+              label="Escreva aqui as atividades extras, caso necessário"
+              auto-grow
+              solo
+            />
+          </template>
         </v-data-table>
 
         <div class="summary-step__form-caption">
@@ -139,6 +160,21 @@
           >
             {{ item.name }}
           </v-chip>
+          <v-col
+            style="margin-left: auto;"
+            cols="12"
+            sm="3"
+          >
+            <v-textarea
+              label="Assinatura"
+              auto-grow
+              outlined
+              rows="1"
+              row-height="15"
+              disabled
+              hide-details
+            />
+          </v-col>
         </div>
       </v-form>
 
@@ -148,9 +184,10 @@
             text
             @click="goToPrevStep()"
           >
-            Cancelar
+            Voltar
           </v-btn>
           <v-btn
+            v-if="selectedUsers && selectedUsers.length > 0"
             color="primary"
             @click="goToNextStep()"
           >
@@ -159,6 +196,7 @@
         </div>
 
         <v-btn
+          v-if="selectedUsers && selectedUsers.length > 0"
           color="primary"
           @click="exportToPdf()"
         >
@@ -213,8 +251,12 @@
             sortable: false
           },
           {
-            text: "Carga horária",
+            text: "Carga de trabalho",
             value: 'workload'
+          },
+          {
+            text: "Atividades extras",
+            value: 'extraActions'
           }
         ],
       }
@@ -223,7 +265,9 @@
       ...mapState('stepper', [
         'selectedUsers',
         'availiableBeds',
-        'classifications'
+        'classifications',
+        'unity',
+        'shift'
       ]),
 
       availableChips(){
@@ -292,7 +336,7 @@
       async goToNextStep(){
         const wrongUsers = this.runUserVerifications()
         if(wrongUsers.length > 0){
-          if(!confirm(`Os funcionários com tempos incorretos:\n${wrongUsers.join('\n')}\n\nDeseja continuar?`)){
+          if(!confirm(`Os funcionários com carga de trabalho inadequada:\n${wrongUsers.join('\n')}\n\nDeseja continuar?`)){
             return;
           }
         }
@@ -313,13 +357,14 @@
       },
       async exportToPdf(){
         const html = this.$refs["summary-form"].$el.innerHTML
+        debugger;
         const element = html;
         const opt = {
-          margin:       0.5,
+          margin:       0.2,
           filename:     'dimensionamento.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
           html2canvas:  { scale: 1 },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+          jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
         };
         html2pdf().from(element).set(opt).save();
       },
@@ -369,13 +414,13 @@
 }
 
 .summary-step__form-table {
-  margin: 0 16px;
+  margin: 0 4px;
 }
 
 .summary-step__form-caption {
   margin-top: 12px;
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -384,7 +429,7 @@
 
   @media (min-width: 1000px) {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
   }
 }
 

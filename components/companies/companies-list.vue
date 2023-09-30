@@ -4,7 +4,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Pesquise aqui pela informação que desejar (id, nome, etc)"
         single-line
         hide-details
       />

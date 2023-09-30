@@ -1,10 +1,11 @@
+<!-- eslint-disable vue/valid-v-slot -->
 <template>
   <v-card flat>
     <v-card-title>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Pesquise aqui pela informação que desejar (nome, email, etc)"
+        label="Pesquise aqui por classificações"
         single-line
         hide-details
       />
@@ -12,10 +13,15 @@
     <v-data-table
       :search="search"
       :headers="headers"
-      :items="users"
-      sort-by="calories"
+      :items="classifications"
+      sort-by="estimated_time"
       class="elevation-1"
     >
+      <template #item.color="{ item }">
+        <v-chip :color="item.color">
+          {{ item.color }}
+        </v-chip>
+      </template>
       <template #item.actions="{ item }">
         <v-icon
           small
@@ -24,12 +30,12 @@
         >
           mdi-pencil
         </v-icon>
-        <v-icon
+        <!-- <v-icon
           small
           @click="deleteItem(item)"
         >
           mdi-delete
-        </v-icon>
+        </v-icon> -->
       </template>
       <template #no-data>
         <v-btn
@@ -51,7 +57,7 @@
         dark
       >
         <v-card-text>
-          Carregando usuário
+          Carregando classificações
           <v-progress-linear
             indeterminate
             color="white"
@@ -59,9 +65,9 @@
           />
         </v-card-text>
       </v-card>
-      <v-card v-if="!dialogLoading && user">
+      <v-card v-if="!dialogLoading && classification">
         <v-card-title>
-          <span class="text-h5">Editar usuário</span>
+          <span class="text-h5">Editar classificação</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -72,10 +78,10 @@
                 md="4"
               >
                 <v-text-field
-                  v-model="user.name"
+                  v-model="classification.name"
                   label="Nome"
                   required
-                  hint="Nome do usuário"
+                  hint="Nome da classificação"
                 />
               </v-col>
               <v-col
@@ -84,10 +90,14 @@
                 md="4"
               >
                 <v-text-field
-                  v-model="user.email"
-                  label="Email"
-                  hint="Email do usuário"
-                />
+                  v-model="classification.color"
+                  label="Cor"
+                  hint="Use o padrão hexadecimal: #aaa111"
+                >
+                  <template #append>
+                    <div :style="{backgroundColor: classification.color, width: '80px', height: '20px'}" />
+                  </template>
+                </v-text-field>
               </v-col>
               <v-col
                 cols="12"
@@ -95,9 +105,9 @@
                 md="4"
               >
                 <v-text-field
-                  v-model="user.code"
-                  label="Código"
-                  hint="Código do usuário"
+                  v-model="classification.estimated_time"
+                  label="Tempo estimado"
+                  hint="Tempo em minutos"
                 />
               </v-col>
               <v-col
@@ -106,22 +116,10 @@
                 md="12"
               >
                 <v-text-field
-                  v-model="user.id"
+                  v-model="classification.id"
                   label="Id"
                   disabled
                   hint=""
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="12"
-              >
-                <v-text-field
-                  v-model="newUserPassword"
-                  label="Senha"
-                  hint="Editar somente quando necessário"
-                  type="password"
                 />
               </v-col>
             </v-row>
@@ -140,7 +138,7 @@
           <v-btn
             color="primary"
             variant="text"
-            @click="saveNewUserInfo()"
+            @click="saveInfo()"
           >
             Salvar
           </v-btn>
@@ -151,13 +149,13 @@
 </template>
 <script>
   export default {
-    name: "UsersList",
+    name: "ClassificationsList",
     props: {
       headers: {
         required: true,
         type: Array
       },
-      users: {
+      classifications: {
         required: true,
         type: Array
       }
@@ -167,45 +165,44 @@
         search: '',
         dialog: false,
         dialogLoading: false,
-        user: null,
-        newUserPassword: '',
+        classification: null,
       }
     },
     methods: {
-      async editItem (user) {
+      async editItem (classification) {
         this.dialog = true
         this.dialogLoading = true
 
-        const response = await this.$axios.get(`/user/getById/${user.id}`)
+        const response = await this.$axios.get(`/classification/getById/${classification.id}`)
 
         if(response){
           setTimeout(()=>{
-            this.user = response.data
+            this.classification = response.data
             this.dialogLoading = false
           },1000)
         }
         else{
-          alert("erro ao carregar usuário");
+          alert("erro ao carregar rede");
         }
       },
 
       async deleteItem (item) {
         if(confirm("Certeza que deseja deletar?")){
-          const response = await this.$axios.delete(`/user/deleteById/${item.id}`)
-          if (response.data.id) {
-            alert("Usuário deletado com sucesso")
+          const response = await this.$axios.delete(`/classification/deleteById/${item.id}`)
+          const {classification} = response.data
+          if (classification.id) {
+            alert("Rede deletada com sucesso")
             this.$router.go()
           }
         }
       },
 
-      async saveNewUserInfo(){
+      async saveInfo(){
         try{
-          if(this.newUserPassword.length > 0){
-            this.user.password = this.newUserPassword
-          }
-          await this.$axios.put("/user/updateById", this.user)
-          await alert("Usuário atualizado com sucesso")
+          debugger
+          console.log(this.classification);
+          await this.$axios.put("/classification/updateById", this.classification)
+          await alert("Rede atualizada com sucesso")
           this.$router.go()
         }catch(e){
           console.log(e);

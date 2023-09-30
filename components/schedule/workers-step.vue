@@ -10,7 +10,7 @@
         </div>
 
         <div class="text-subtitle-1">
-          Selecione os funcionários que estarão disponíveis para a data e turno previamente selecionados
+          Selecione os funcionários que estarão disponíveis para serem escalados
         </div>
       </div>
 
@@ -24,7 +24,7 @@
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
-              label="Search"
+              label="Pesquise aqui pela informação que desejar (id, nome, etc)"
               single-line
               hide-details
             />
