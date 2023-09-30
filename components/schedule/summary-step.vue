@@ -128,13 +128,21 @@
           </template>
 
           <template #item.extraActions>
-            <v-textarea
+            <!-- <v-textarea
               style="margin-top: 4px;"
               rows="2"
-              label="Escreva aqui as atividades extras, caso necessário"
+              label="Escreva aqui as atividades extras"
               auto-grow
-              solo
-            />
+              outlined
+            /> -->
+            <v-containter>
+              <v-combobox
+                class="summary-step__extra-actions-container"
+                label="Atividades extras"
+                multiple
+                chips
+              />
+            </v-containter>
           </template>
         </v-data-table>
 
@@ -317,7 +325,6 @@
 
       goToPrevStep(){
         this.filteredChips = []
-        this.users = []
         this.$emit('change', 'prev')
       },
 
@@ -441,6 +448,11 @@
 
 .summary-step__actions-container{
   margin: 0;
+  max-width: 450px;
+}
+
+.summary-step__extra-actions-container {
+  max-width: 450px;
 }
 
 .summary-step__actions-chip{

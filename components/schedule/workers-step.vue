@@ -113,6 +113,7 @@
         }
       },
       goToPrevStep(){
+        this.selectedUsers = []
         this.setAvailableUsers([])
         this.setSelectedUsers([])
         this.$emit('change', 'prev')
