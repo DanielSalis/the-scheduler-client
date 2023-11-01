@@ -4,7 +4,7 @@
       <v-form
         ref="form"
         lazy-validation
-        @submit.prevent="addCompany"
+        @submit.prevent="addClassification"
       >
         <v-text-field
           v-model="classificationInfo.name"
@@ -68,10 +68,10 @@
       }
     },
     methods: {
-      async addCompany(){
-        await this.$axios.post("/company/create", this.classificationInfo).then((response)=>{
+      async addClassification(){
+        await this.$axios.post("/classification/create", this.classificationInfo).then((response)=>{
           console.log(response);
-          alert("Rede criada com sucesso!")
+          alert("Classificação criada com sucesso!")
           this.$router.go('/admin/companies')
         }).catch(error=>{
           alert(`Erro ao criar Rede: ${error.response.data.error}`)
