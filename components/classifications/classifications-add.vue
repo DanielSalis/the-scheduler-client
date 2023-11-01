@@ -15,7 +15,7 @@
         />
 
         <v-text-field
-          v-model="classificationInfo.address"
+          v-model="classificationInfo.color"
           :rules="colorRules"
           solo
           label="Cor"
@@ -26,7 +26,7 @@
           v-model="classificationInfo.estimated_time"
           :rules="estimatedTimeRule"
           solo
-          label="Tempo estimado"
+          label="Tempo estimado em minutos"
           required
         />
 
@@ -63,7 +63,6 @@
         ],
         estimatedTimeRule: [
           v => !!v || 'Tempo estimado é necessário',
-          v => v > 0 || 'Tempo precisa ser maior que 0',
         ],
       }
     },
@@ -74,7 +73,7 @@
           alert("Classificação criada com sucesso!")
           this.$router.go('/admin/companies')
         }).catch(error=>{
-          alert(`Erro ao criar Rede: ${error.response.data.error}`)
+          alert(`Erro ao criar classificação: ${error.response.data.error}`)
         })
       }
     },
