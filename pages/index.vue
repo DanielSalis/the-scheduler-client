@@ -1,53 +1,57 @@
 <template>
   <gContainer class="home-page__container">
-    <div
-      v-for="route,index in availableRoutes"
-      :key="index"
-      style="width: 100%;"
-    >
-      <div
-        class="text-h5 ml-3"
-      >
-        {{ route.name }}
-      </div>
-      <v-row
-        class="my-6 mx-0"
+    <v-expansion-panels>
+      <v-expansion-panel
+        v-for="route,index in availableRoutes"
+        :key="index"
         style="width: 100%;"
       >
-        <v-col
-          v-for="tool, toolsIndex in route.tools"
-          :key="toolsIndex"
-          cols="12"
-          sm="12"
-          md="6"
-          lg="4"
+        <v-expansion-panel-header
+          class="text-h5 ml-3"
         >
-          <v-card
-            outlined
+          {{ route.name }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-row
+            class="my-6 mx-0"
+            style="width: 100%;"
           >
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title class="text-h6 mb-1">
-                  {{ tool.name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>{{ tool.description }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-card-actions>
-              <v-btn
+            <v-col
+              v-for="tool, toolsIndex in route.tools"
+              :key="toolsIndex"
+              cols="12"
+              sm="12"
+              md="6"
+              lg="4"
+            >
+              <v-card
                 outlined
-                text
-                block
-                @click="redirectToRoute(tool.route)"
               >
-                Acessar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6 mb-1">
+                      {{ tool.name }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{ tool.description }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-card-actions>
+                  <v-btn
+                    outlined
+                    text
+                    block
+                    @click="redirectToRoute(tool.route)"
+                  >
+                    Acessar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </gContainer>
 </template>
 
