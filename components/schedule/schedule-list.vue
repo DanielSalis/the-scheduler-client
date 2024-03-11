@@ -162,9 +162,6 @@
         this.dialogLoading = true
 
         const response = await this.$axios.get(`/schedule/getById/${item.id}`)
-
-        debugger;
-
         if(response){
           setTimeout(()=>{
             this.schedule = response.data

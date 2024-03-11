@@ -364,7 +364,6 @@
       },
       async exportToPdf(){
         const html = this.$refs["summary-form"].$el.innerHTML
-        debugger;
         const element = html;
         const opt = {
           margin:       0.2,
