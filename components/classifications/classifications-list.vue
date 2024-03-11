@@ -199,7 +199,6 @@
 
       async saveInfo(){
         try{
-          debugger
           console.log(this.classification);
           await this.$axios.put("/classification/updateById", this.classification)
           await alert("Rede atualizada com sucesso")
