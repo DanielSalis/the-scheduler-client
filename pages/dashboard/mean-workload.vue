@@ -20,6 +20,7 @@
           item-text="name"
           item-value="id"
           label="Unidade"
+          :clearable="true"
         />
       </v-col>
       <v-col
@@ -33,6 +34,7 @@
           item-text="name"
           item-value="id"
           label="Turno"
+          :clearable="true"
         />
       </v-col>
       <v-col
@@ -56,6 +58,7 @@
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
+              :clearable="true"
               v-on="on"
             />
           </template>
@@ -103,6 +106,7 @@
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
+              :clearable="true"
               v-on="on"
             />
           </template>
@@ -304,7 +308,6 @@
     async fetch(){
       try {
         const {name} = this.getAuthData().user_role
-        debugger;
 
         if(name === 'Admin') {
           await this.$axios.get(`/unity/getAll`).then((response)=>{
@@ -354,16 +357,14 @@
           }
           const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
 
-          debugger
-
           this.series = response.data.series
           this.chartOptions.xaxis.categories = response.data.xaxis;
-          this.filter = {
-            unit: null,
-            shift: null,
-            start: '',
-            end: '',
-          }
+          // this.filter = {
+          //   unit: null,
+          //   shift: null,
+          //   start: '',
+          //   end: '',
+          // }
           this.chart = true;
           const users_quantity = response.data.series.map(data=>data.users_quantity);
           this.usersCount = users_quantity.map(item=>item[0])
