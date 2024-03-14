@@ -243,7 +243,7 @@
           },
           xaxis: {
             type: 'datetime',
-            categories: ['2023-08-03', '2023-08-04'],
+            // categories: ['2023-08-03', '2023-08-04'],
           },
           yaxis: {
             axisBorder: {
