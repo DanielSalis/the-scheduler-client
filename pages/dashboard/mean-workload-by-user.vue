@@ -125,23 +125,129 @@
         </div>
       </v-col>
     </v-row>
+
+    <v-card
+      v-if="series && chartOptions"
+      flat
+      class="mt-5 px-4 py-4"
+    >
+      <VueApexCharts
+        v-if="chart"
+        ref="realtimeChart"
+        type="line"
+        height="550"
+        :options="chartOptions"
+        :series="series"
+      />
+    </v-card>
   </gContainer>
 </template>
 
 <script>
   import gContainer from '~/components/g-container.vue';
+  import VueApexCharts from 'vue-apexcharts';
+
 
   export default {
     name: "MeanWorkloadByUser",
     components: {
-      gContainer
+      gContainer,
+      VueApexCharts
     },
     data() {
       return {
+        menuStart: false,
+        menuEnd: false,
+        chart: false,
+        series: null,
+        chartOptions: {
+          chart: {
+            height: 350,
+            type: 'line',
+            dropShadow: {
+              enabled: true,
+              color: '#000',
+              top: 18,
+              left: 7,
+              blur: 10,
+              opacity: 0.2
+            },
+            toolbar: {
+              show: false
+            }
+          },
+          colors: ['#77B6EA', '#545454'],
+          dataLabels: {
+            enabled: true,
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          title: {},
+          grid: {
+            borderColor: '#e7e7e7',
+            row: {
+              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+            },
+          },
+          markers: {
+            size: 2
+          },
+          xaxis: {
+          },
+          yaxis: {
+            title: {
+              text: 'Quantidade de minutos'
+            },
+            labels: {
+              show: true,
+              formatter: function (val) {
+                return val + " minutos";
+              }
+            },
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+          }
+        },
         filter: {
           start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
           end: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         },
+      }
+    },
+    async fetch(){
+      try {
+        const params = {
+          start_date: this.start,
+          end_date: this.end,
+        }
+        const response = await this.$axios.get('/dashboard/listMeanWorkloadByUsers', {params});
+        this.series = [
+          {
+            name: "Quantidade de minutos",
+            data: response.data[0].user.dateWork.data
+          }
+        ]
+        this.chartOptions.labels = response.data[0].user.dateWork.xAxis
+        this.chartOptions.xaxis = {
+          categories: response.data[0].user.dateWork.xAxis,
+          title: {
+            text: "Dias"
+          }
+        }
+        this.chartOptions.title = {
+          text: 'Quantidade de minutos trabalhados por dia - ' + response.data[0].user.name,
+          align: 'left'
+        }
+        this.chart = true;
+      } catch (error) {
+        console.log(error);
       }
     },
     methods: {
@@ -152,13 +258,10 @@
             start_date: this.filter.start,
             end_date: this.filter.end,
           }
-          const response = await this.$axios.get('/dashboard/listSchedulesMeanWorkload', {params});
+          const response = await this.$axios.get('/dashboard/listMeanWorkloadByUsers', {params});
 
-          this.series = response.data.series
-          this.chartOptions.xaxis.categories = response.data.xaxis;
+          this.series = response[0].data.dateWork
           this.chart = true;
-          const users_quantity = response.data.series.map(data=>data.users_quantity);
-          this.usersCount = users_quantity.map(item=>item[0])
         } catch (error) {
           console.log(error);
         }
