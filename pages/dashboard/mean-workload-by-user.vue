@@ -4,7 +4,7 @@
     class="mean-workload-by-user"
   >
     <v-row
-      style="width: 100%;"
+      style="width: 100%"
       align="center"
       justify="end"
       class="mt-2"
@@ -109,7 +109,7 @@
         cols="12"
         sm="12"
         md="1"
-        style="text-align: center;"
+        style="text-align: center"
       >
         <div>
           <v-btn
@@ -126,7 +126,7 @@
       </v-col>
     </v-row>
 
-    <v-card
+    <!-- <v-card
       v-if="series && chartOptions"
       flat
       class="mt-5 px-4 py-4"
@@ -139,136 +139,283 @@
         :options="chartOptions"
         :series="series"
       />
+    </v-card> -->
+    <v-expansion-panels
+      v-if="charts && charts.length > 0"
+      v-model="panel"
+      multiple
+    >
+      <v-expansion-panel
+        v-for="(item, index) in charts"
+        :key="index"
+        flat
+      >
+        <v-expansion-panel-header
+          class="text-h6 ml-3 mean-workload-by-user__user-title"
+        >
+          <v-row
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+            "
+          >
+            <h6 style="width: 33%">
+              {{ item.title }}
+            </h6>
+            <h6 style="width: 33%">
+              {{ item.email }}
+            </h6>
+            <h6 class="mr-4">
+              {{ item.workload }} minutos
+            </h6>
+          </v-row>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <VueApexCharts
+            ref="realtimeChart"
+            type="line"
+            height="550"
+            :options="item.chartOptions"
+            :series="item.series"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
+    <v-card v-if="chart">
+      <VueApexCharts
+        ref="realtimeChart"
+        type="bar"
+        height="550"
+        :series="generalChart.series"
+        :options="generalChart.chartOptions"
+      />
     </v-card>
   </gContainer>
 </template>
 
 <script>
-  import gContainer from '~/components/g-container.vue';
-  import VueApexCharts from 'vue-apexcharts';
-
+  import gContainer from "~/components/g-container.vue";
+  import VueApexCharts from "vue-apexcharts";
 
   export default {
     name: "MeanWorkloadByUser",
     components: {
       gContainer,
-      VueApexCharts
+      VueApexCharts,
     },
     data() {
       return {
+        panel: [],
+        charts: [],
         menuStart: false,
         menuEnd: false,
         chart: false,
+        generalChart: null,
         series: null,
         chartOptions: {
           chart: {
             height: 350,
-            type: 'line',
+            type: "line",
             dropShadow: {
               enabled: true,
-              color: '#000',
+              color: "#000",
               top: 18,
               left: 7,
               blur: 10,
-              opacity: 0.2
+              opacity: 0.2,
             },
             toolbar: {
-              show: false
-            }
+              show: true,
+            },
           },
-          colors: ['#77B6EA', '#545454'],
+          colors: ["#77B6EA", "#545454"],
           dataLabels: {
             enabled: true,
           },
           stroke: {
-            curve: 'smooth'
+            curve: "smooth",
           },
           title: {},
           grid: {
-            borderColor: '#e7e7e7',
+            borderColor: "#e7e7e7",
             row: {
-              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-              opacity: 0.5
+              colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+              opacity: 0.5,
             },
           },
           markers: {
-            size: 2
+            size: 1,
           },
-          xaxis: {
-          },
+          xaxis: {},
           yaxis: {
             title: {
-              text: 'Quantidade de minutos'
+              text: "Quantidade de minutos",
             },
             labels: {
               show: true,
               formatter: function (val) {
                 return val + " minutos";
-              }
+              },
             },
           },
           legend: {
-            position: 'top',
-            horizontalAlign: 'right',
+            position: "top",
+            horizontalAlign: "right",
             floating: true,
             offsetY: -25,
-            offsetX: -5
-          }
+            offsetX: -5,
+          },
         },
         filter: {
-          start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
-          end: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+          start: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+            .toISOString()
+            .substr(0, 10),
+          end: null,
         },
-      }
+      };
     },
-    async fetch(){
+    async fetch() {
       try {
-        const params = {
-          start_date: this.start,
-          end_date: this.end,
-        }
-        const response = await this.$axios.get('/dashboard/listMeanWorkloadByUsers', {params});
-        this.series = [
-          {
-            name: "Quantidade de minutos",
-            data: response.data[0].user.dateWork.data
-          }
-        ]
-        this.chartOptions.labels = response.data[0].user.dateWork.xAxis
-        this.chartOptions.xaxis = {
-          categories: response.data[0].user.dateWork.xAxis,
-          title: {
-            text: "Dias"
-          }
-        }
-        this.chartOptions.title = {
-          text: 'Quantidade de minutos trabalhados por dia - ' + response.data[0].user.name,
-          align: 'left'
-        }
-        this.chart = true;
+        this.performFilter();
       } catch (error) {
         console.log(error);
       }
     },
     methods: {
-      async performFilter(){
-        this.chart=false
+      async performFilter() {
+        this.chart = false;
         try {
           const params = {
             start_date: this.filter.start,
             end_date: this.filter.end,
-          }
-          const response = await this.$axios.get('/dashboard/listMeanWorkloadByUsers', {params});
+          };
+          const response = await this.$axios.get(
+            "/dashboard/listMeanWorkloadByUsers",
+            { params }
+          );
+          this.charts = response.data.map((item) => {
+            const newChart = {
+              title: item.user.name,
+              email: item.user.email,
+              workload: item.total_period_time,
+              series: [
+                {
+                  name: "Quantidade de minutos",
+                  data: item.user.dateWork.data,
+                },
+              ],
+              chartOptions: {
+              ...this.chartOptions,
+              labels: item.user.dateWork.xAxis,
+              xaxis: {
+                categories: item.user.dateWork.xAxis,
+                title: {
+                  text: "Dias",
+                },
+              },
+              title: {
+                text:
+                  "Quantidade de minutos trabalhados por dia - " +
+                  item.user.name,
+                align: "left",
+              },
+              },
+            };
+            return newChart;
+          });
 
-          this.series = response[0].data.dateWork
+          this.generalChart = {
+            series: [{
+              name: 'Minutos trabalhados',
+              data: response.data.map((item) => item.total_period_time)
+            }],
+            chartOptions: {
+              chart: {
+                height: 350,
+                type: 'bar',
+              },
+              plotOptions: {
+                bar: {
+                  borderRadius: 10,
+                  dataLabels: {
+                    position: 'top', // top, center, bottom
+                  },
+                }
+              },
+              dataLabels: {
+                enabled: true,
+                formatter: function (val) {
+                  return val;
+                },
+                offsetY: -20,
+                style: {
+                  fontSize: '12px',
+                  colors: ["#304758"]
+                }
+              },
+
+              xaxis: {
+                categories: response.data.map((item) => item.user.name),
+                position: 'bottom',
+                axisBorder: {
+                  show: true
+                },
+                axisTicks: {
+                  show: false
+                },
+                crosshairs: {
+                  fill: {
+                    type: 'gradient',
+                    gradient: {
+                      colorFrom: '#D8E3F0',
+                      colorTo: '#BED1E6',
+                      stops: [0, 100],
+                      opacityFrom: 0.4,
+                      opacityTo: 0.5,
+                    }
+                  }
+                },
+                tooltip: {
+                  enabled: true,
+                }
+              },
+              yaxis: {
+                axisBorder: {
+                  show: false
+                },
+                axisTicks: {
+                  show: false,
+                },
+                labels: {
+                  show: false,
+                  formatter: function (val) {
+                    return val;
+                  }
+                }
+
+              },
+              title: {
+                text: 'Funcionários',
+                align: 'center',
+                style: {
+                  color: '#444'
+                }
+              }
+            },
+          }
           this.chart = true;
         } catch (error) {
           console.log(error);
         }
       },
     },
-  }
+  };
 </script>
 
 <style>
+.mean-workload-by-user__user-title {
+  text-transform: uppercase;
+}
 </style>
