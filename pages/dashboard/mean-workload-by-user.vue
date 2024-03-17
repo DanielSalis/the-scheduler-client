@@ -478,12 +478,12 @@
               },
               theme: {
                 mode: 'dark',
-                palette: 'palette4',
+                palette: 'palette3',
                 monochrome: {
                   enabled: false,
                   color: '#255aee',
                   shadeTo: 'light',
-                  shadeIntensity: 0.65
+                  shadeIntensity: 0.75
                 },
               }
             },
