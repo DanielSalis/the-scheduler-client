@@ -126,6 +126,11 @@
                 name: 'Horas trabalhadas',
                 description: 'Horas trabalhadas por unidades e turnos',
                 route:"/dashboard/mean-workload"
+              },
+              {
+                name: 'Relatório de funcionários',
+                description: 'Horas trabalhadas de cada usuário por data',
+                route:"/dashboard/mean-workload-by-user"
               }
             ]
           },
