@@ -126,117 +126,127 @@
       </v-col>
     </v-row>
 
-    <v-card
-      v-if="chart"
-      class="px-2 py-2"
-      style="height: 560px;"
-    >
-      <VueApexCharts
-        ref="realtimeChart"
-        type="bar"
-        height="100%"
-        :series="generalChart.series"
-        :options="generalChart.chartOptions"
-      />
-    </v-card>
-
-    <v-card
-      class="mt-8 px-4"
-      style="width: 100%;"
-    >
-      <v-row class="">
-        <v-col>
-          <v-text-field
-            v-model="userFilter"
-            label="Filtre usuários (por nome)"
-            prepend-icon="mdi-magnify"
-          />
-        </v-col>
-      </v-row>
-    </v-card>
-
-    <v-expansion-panels
-      v-if="charts && charts.length > 0"
-      v-model="panel"
-      class="mb-8"
-      multiple
-    >
-      <v-expansion-panel
-        v-for="(item, index) in filteredGeneralChart"
-        :key="index"
-        flat
+    <div v-if="renderChartsCondition">
+      <v-card
+        v-if="chart"
+        class="px-2 py-2"
+        style="height: 560px;"
       >
-        <v-expansion-panel-header
-          class="text-h6 ml-3 mean-workload-by-user__user-title"
+        <VueApexCharts
+          ref="realtimeChart"
+          type="bar"
+          height="100%"
+          :series="generalChart.series"
+          :options="generalChart.chartOptions"
+        />
+      </v-card>
+
+      <v-card
+        class="mt-8 px-4"
+        style="width: 100%;"
+      >
+        <v-row class="">
+          <v-col>
+            <v-text-field
+              v-model="userFilter"
+              label="Filtre usuários (por nome)"
+              prepend-icon="mdi-magnify"
+            />
+          </v-col>
+        </v-row>
+      </v-card>
+
+      <v-expansion-panels
+        v-if="charts && charts.length > 0"
+        v-model="panel"
+        class="mb-8"
+        multiple
+      >
+        <v-expansion-panel
+          v-for="(item, index) in filteredGeneralChart"
+          :key="index"
+          flat
         >
-          <v-row
-            style="
+          <v-expansion-panel-header
+            class="text-h6 ml-3 mean-workload-by-user__user-title"
+          >
+            <v-row
+              style="
               display: flex;
               flex-direction: row;
               justify-content: space-between;
             "
-          >
-            <h6 style="width: 33%">
-              {{ item.title }}
-            </h6>
-            <h6 style="width: 33%">
-              {{ item.email }}
-            </h6>
-            <div class="mr-4">
-              <h6>
-                {{ item.workload }} minutos
+            >
+              <h6 style="width: 33%">
+                {{ item.title }}
               </h6>
-              <v-chip
-                style="width: 100%; height: 5px;"
-                :color="getColorByPercentage(item.workload)"
-              />
-            </div>
-          </v-row>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <VueApexCharts
-            ref="realtimeChart"
-            type="line"
-            height="550"
-            :options="item.chartOptions"
-            :series="item.series"
+              <h6 style="width: 33%">
+                {{ item.email }}
+              </h6>
+              <div class="mr-4">
+                <h6>
+                  {{ item.workload }} minutos
+                </h6>
+                <v-chip
+                  style="width: 100%; height: 5px;"
+                  :color="getColorByPercentage(item.workload)"
+                />
+              </div>
+            </v-row>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <VueApexCharts
+              ref="realtimeChart"
+              type="line"
+              height="550"
+              :options="item.chartOptions"
+              :series="item.series"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      <div class="my-4">
+        <div style="display: flex; align-items: center;">
+          <v-chip
+            class="mr-2"
+            style="width: 30px; height: 12px;"
+            color="red"
           />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+          <h4>
+            Até 75% do valor mais alto
+          </h4>
+        </div>
 
-    <div class="my-4">
-      <div style="display: flex; align-items: center;">
-        <v-chip
-          class="mr-2"
-          style="width: 30px; height: 12px;"
-          color="red"
-        />
-        <h4>
-          Até 75% do valor mais alto
-        </h4>
+        <div style="display: flex; align-items: center;">
+          <v-chip
+            class="mr-2"
+            style="width: 30px; height: 12px;"
+            color="yellow"
+          />
+          <h4>
+            De 25% a 75% comparado com o valor mais alto
+          </h4>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <v-chip
+            class="mr-2"
+            style="width: 30px; height: 12px;"
+            color="green"
+          />
+          <h4>
+            Menos que 25% do valor mais alto
+          </h4>
+        </div>
       </div>
-
-      <div style="display: flex; align-items: center;">
-        <v-chip
-          class="mr-2"
-          style="width: 30px; height: 12px;"
-          color="yellow"
-        />
-        <h4>
-          De 25% a 75% comparado com o valor mais alto
-        </h4>
-      </div>
-      <div style="display: flex; align-items: center;">
-        <v-chip
-          class="mr-2"
-          style="width: 30px; height: 12px;"
-          color="green"
-        />
-        <h4>
-          Menos que 25% do valor mais alto
-        </h4>
-      </div>
+    </div>
+    <div v-else>
+      <v-alert
+        color="red lighten-2"
+        dark
+      >
+        Nenhum resultado foi encontrado para essa busca
+      </v-alert>
     </div>
   </gContainer>
 </template>
@@ -346,6 +356,9 @@
       filteredGeneralChart(){
         return this.charts.filter(item=>item.title.toLowerCase().includes(this.userFilter.toLowerCase()))
       },
+      renderChartsCondition(){
+        return this.generalChart && this.generalChart.series.length > 0 && this.charts && this.charts.length > 0
+      }
     },
     methods: {
       getColorByPercentage(value){
