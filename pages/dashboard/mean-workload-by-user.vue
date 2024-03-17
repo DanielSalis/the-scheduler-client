@@ -126,27 +126,43 @@
       </v-col>
     </v-row>
 
-    <!-- <v-card
-      v-if="series && chartOptions"
-      flat
-      class="mt-5 px-4 py-4"
+    <v-card
+      v-if="chart"
+      class="px-2 py-2"
+      style="height: 560px;"
     >
       <VueApexCharts
-        v-if="chart"
         ref="realtimeChart"
-        type="line"
-        height="550"
-        :options="chartOptions"
-        :series="series"
+        type="bar"
+        height="100%"
+        :series="generalChart.series"
+        :options="generalChart.chartOptions"
       />
-    </v-card> -->
+    </v-card>
+
+    <v-card
+      class="mt-8 px-4"
+      style="width: 100%;"
+    >
+      <v-row class="">
+        <v-col>
+          <v-text-field
+            v-model="userFilter"
+            label="Filtre usuários (por nome)"
+            prepend-icon="mdi-magnify"
+          />
+        </v-col>
+      </v-row>
+    </v-card>
+
     <v-expansion-panels
       v-if="charts && charts.length > 0"
       v-model="panel"
+      class="mb-8"
       multiple
     >
       <v-expansion-panel
-        v-for="(item, index) in charts"
+        v-for="(item, index) in filteredGeneralChart"
         :key="index"
         flat
       >
@@ -166,9 +182,15 @@
             <h6 style="width: 33%">
               {{ item.email }}
             </h6>
-            <h6 class="mr-4">
-              {{ item.workload }} minutos
-            </h6>
+            <div class="mr-4">
+              <h6>
+                {{ item.workload }} minutos
+              </h6>
+              <v-chip
+                style="width: 100%; height: 5px;"
+                :color="getColorByPercentage(item.workload)"
+              />
+            </div>
           </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -183,15 +205,39 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-card v-if="chart">
-      <VueApexCharts
-        ref="realtimeChart"
-        type="bar"
-        height="550"
-        :series="generalChart.series"
-        :options="generalChart.chartOptions"
-      />
-    </v-card>
+    <div class="my-4">
+      <div style="display: flex; align-items: center;">
+        <v-chip
+          class="mr-2"
+          style="width: 30px; height: 12px;"
+          color="red"
+        />
+        <h4>
+          Até 75% do valor mais alto
+        </h4>
+      </div>
+
+      <div style="display: flex; align-items: center;">
+        <v-chip
+          class="mr-2"
+          style="width: 30px; height: 12px;"
+          color="yellow"
+        />
+        <h4>
+          De 25% a 75% comparado com o valor mais alto
+        </h4>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <v-chip
+          class="mr-2"
+          style="width: 30px; height: 12px;"
+          color="green"
+        />
+        <h4>
+          Menos que 25% do valor mais alto
+        </h4>
+      </div>
+    </div>
   </gContainer>
 </template>
 
@@ -214,6 +260,7 @@
         chart: false,
         generalChart: null,
         series: null,
+        userFilter: '',
         chartOptions: {
           chart: {
             height: 350,
@@ -238,13 +285,6 @@
             curve: "smooth",
           },
           title: {},
-          grid: {
-            borderColor: "#e7e7e7",
-            row: {
-              colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-              opacity: 0.5,
-            },
-          },
           markers: {
             size: 1,
           },
@@ -267,6 +307,16 @@
             offsetY: -25,
             offsetX: -5,
           },
+          theme: {
+            mode: 'dark',
+            palette: 'palette1',
+            monochrome: {
+              enabled: false,
+              color: '#255aee',
+              shadeTo: 'light',
+              shadeIntensity: 0.65
+            },
+          }
         },
         filter: {
           start: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -283,7 +333,35 @@
         console.log(error);
       }
     },
+    computed: {
+      generalChartTitle(){
+        if(this.filter.start && !this.filter.end){
+          return `Funcionários no dia ${this.filter.start}`
+        }
+        else if(!this.filter.start && this.filter.end){
+          return `Funcionários no dia ${this.filter.end}`
+        }
+        return `Funcionários no período ${this.filter.start} - ${this.filter.end}`
+      },
+      filteredGeneralChart(){
+        return this.charts.filter(item=>item.title.toLowerCase().includes(this.userFilter.toLowerCase()))
+      },
+    },
     methods: {
+      getColorByPercentage(value){
+        const highestWorkload = this.charts[0].workload
+        const percentage = value / highestWorkload;
+
+        if(percentage > 0.75){
+          return "red"
+        }
+        if(percentage < 0.75 && percentage > 0.25){
+          return "yellow"
+        }
+        if (percentage < 0.25) {
+          return "green"
+        }
+      },
       async performFilter() {
         this.chart = false;
         try {
@@ -352,10 +430,8 @@
                 offsetY: -20,
                 style: {
                   fontSize: '12px',
-                  colors: ["#304758"]
                 }
               },
-
               xaxis: {
                 categories: response.data.map((item) => item.user.name),
                 position: 'bottom',
@@ -389,7 +465,7 @@
                   show: false,
                 },
                 labels: {
-                  show: false,
+                  show: true,
                   formatter: function (val) {
                     return val;
                   }
@@ -397,11 +473,18 @@
 
               },
               title: {
-                text: 'Funcionários',
+                text: this.generalChartTitle,
                 align: 'center',
-                style: {
-                  color: '#444'
-                }
+              },
+              theme: {
+                mode: 'dark',
+                palette: 'palette4',
+                monochrome: {
+                  enabled: false,
+                  color: '#255aee',
+                  shadeTo: 'light',
+                  shadeIntensity: 0.65
+                },
               }
             },
           }
