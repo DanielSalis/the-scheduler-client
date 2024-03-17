@@ -12,14 +12,16 @@
       <v-col
         cols="12"
         sm="6"
-        md="2"
+        md="5"
       >
         <v-select
           v-model="filter.unity"
+          multiple
           :items="availableUnities"
           item-text="name"
           item-value="id"
           label="Unidade"
+          hint="Escolha unidades"
           :clearable="true"
         />
       </v-col>
@@ -298,7 +300,7 @@
         filter: {
           start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
           end: '',
-          unity: null,
+          unity: [],
           shift: null,
         },
         availableUnities: null,
