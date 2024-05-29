@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/valid-v-slot -->
 <template>
   <v-stepper-content
+    ref="summary-form"
     step="5"
   >
     <div
@@ -53,7 +54,6 @@
 
       <v-form
         v-if="selectedUsers && selectedUsers.length > 0"
-        ref="summary-form"
         class="summary-step__form-container "
       >
         <v-data-table
@@ -173,6 +173,7 @@
             cols="12"
             sm="3"
           >
+            <span>Responsável: {{ getCurrentUserName() }}</span>
             <v-textarea
               label="Assinatura"
               auto-grow
@@ -235,7 +236,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapGetters } from 'vuex'
   import html2pdf from 'html2pdf.js';
 
   export default {
@@ -308,10 +309,15 @@
       }
     },
     methods: {
+      ...mapGetters("auth", ['getAuthData']),
       ...mapActions("stepper", [
         'setSelectedUsers',
         'finishSchedule',
       ]),
+
+      getCurrentUserName(){
+        return this.getAuthData().name
+      },
 
       sortByClassificationName(arr) {
         return arr.sort((a, b) => {

@@ -32,10 +32,12 @@
       >
         <v-select
           v-model="filter.shift"
+          multiple
           :items="availableShifts"
           item-text="name"
           item-value="id"
           label="Turno"
+          hint="Escolha os turnos"
           :clearable="true"
         />
       </v-col>
@@ -301,7 +303,7 @@
           start: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10) ,
           end: '',
           unity: [],
-          shift: null,
+          shift: [],
         },
         availableUnities: null,
         availableShifts: null,
