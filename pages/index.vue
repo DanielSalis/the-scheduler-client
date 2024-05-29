@@ -96,7 +96,7 @@
                 route:"/admin/beds"
               },
               {
-                name: 'Calssificações',
+                name: 'Classificações',
                 description: 'Atualize as propriedades de cada classificação',
                 route:"/admin/classifications"
               },
