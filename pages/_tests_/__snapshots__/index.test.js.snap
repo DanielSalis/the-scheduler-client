@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index Page renders the Index Page correctly 1`] = `
+<div
+  class="g-container home-page__container"
+>
+  <div
+    class="v-item-group theme--light v-expansion-panels"
+  >
+    <div
+      aria-expanded="false"
+      class="v-expansion-panel"
+      style="width: 100%;"
+    >
+      <button
+        class="v-expansion-panel-header text-h5 ml-3"
+        type="button"
+      >
+        
+        Admin
+      
+        <transition-stub
+          name="fade-transition"
+        >
+          <div
+            class="v-expansion-panel-header__icon"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-chevron-down theme--light"
+            />
+          </div>
+        </transition-stub>
+      </button>
+       
+      <transition-stub
+        name="expand-transition"
+      >
+        <!---->
+      </transition-stub>
+    </div>
+    <div
+      aria-expanded="false"
+      class="v-expansion-panel"
+      style="width: 100%;"
+    >
+      <button
+        class="v-expansion-panel-header text-h5 ml-3"
+        type="button"
+      >
+        
+        Ferramentas
+      
+        <transition-stub
+          name="fade-transition"
+        >
+          <div
+            class="v-expansion-panel-header__icon"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-chevron-down theme--light"
+            />
+          </div>
+        </transition-stub>
+      </button>
+       
+      <transition-stub
+        name="expand-transition"
+      >
+        <!---->
+      </transition-stub>
+    </div>
+    <div
+      aria-expanded="false"
+      class="v-expansion-panel"
+      style="width: 100%;"
+    >
+      <button
+        class="v-expansion-panel-header text-h5 ml-3"
+        type="button"
+      >
+        
+        Dashboards
+      
+        <transition-stub
+          name="fade-transition"
+        >
+          <div
+            class="v-expansion-panel-header__icon"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-chevron-down theme--light"
+            />
+          </div>
+        </transition-stub>
+      </button>
+       
+      <transition-stub
+        name="expand-transition"
+      >
+        <!---->
+      </transition-stub>
+    </div>
+  </div>
+</div>
+`;

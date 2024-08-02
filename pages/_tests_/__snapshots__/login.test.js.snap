@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage.vue matches the snapshot 1`] = `
+"<div tabindex=\\"0\\" class=\\"admin-page\\">
+  <v-card-stub loaderheight=\\"4\\" tag=\\"div\\" rounded=\\"true\\" class=\\"admin-page__content\\">
+    <v-form-stub lazyvalidation=\\"true\\" value=\\"true\\">
+      <v-text-field-stub errorcount=\\"1\\" errormessages=\\"\\" messages=\\"\\" rules=\\"\\" successmessages=\\"\\" backgroundcolor=\\"\\" label=\\"email\\" loaderheight=\\"2\\" clearicon=\\"$clear\\" solo=\\"true\\" type=\\"text\\" required=\\"\\"></v-text-field-stub>
+      <v-text-field-stub errorcount=\\"1\\" errormessages=\\"\\" messages=\\"\\" rules=\\"\\" successmessages=\\"\\" backgroundcolor=\\"\\" label=\\"senha\\" loaderheight=\\"2\\" clearicon=\\"$clear\\" solo=\\"true\\" type=\\"password\\" required=\\"\\"></v-text-field-stub>
+      <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" block=\\"true\\" type=\\"submit\\" validate-on=\\"submit\\" class=\\"mr-4\\">
+        Entrar
+      </v-btn-stub>
+    </v-form-stub>
+  </v-card-stub>
+</div>"
+`;
