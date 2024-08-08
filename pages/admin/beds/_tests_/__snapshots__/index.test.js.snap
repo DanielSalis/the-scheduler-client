@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminUnitiesPage.vue renders the component and matches snapshot 1`] = `
+"<gcontainer-stub class=\\"admin-beds-page-container\\">
+  <v-card-stub loaderheight=\\"4\\" tag=\\"div\\">
+    <v-toolbar-stub color=\\"white\\" tag=\\"header\\" extensionheight=\\"48\\" flat=\\"true\\" src=\\"\\">
+      <v-toolbar-title-stub tag=\\"div\\">Leitos</v-toolbar-title-stub>
+    </v-toolbar-stub>
+    <v-tabs-stub activeclass=\\"\\" nexticon=\\"$next\\" previcon=\\"$prev\\" slidersize=\\"2\\">
+      <v-tab-stub ripple=\\"true\\">
+        <v-icon-stub left=\\"\\">
+          mdi-table
+        </v-icon-stub>
+        Listar
+      </v-tab-stub>
+      <v-tab-stub ripple=\\"true\\">
+        <v-icon-stub left=\\"\\">
+          mdi-plus
+        </v-icon-stub>
+        Adicionar
+      </v-tab-stub>
+      <v-tab-item-stub>
+        <!---->
+      </v-tab-item-stub>
+      <v-tab-item-stub>
+        <!---->
+      </v-tab-item-stub>
+    </v-tabs-stub>
+  </v-card-stub>
+</gcontainer-stub>"
+`;

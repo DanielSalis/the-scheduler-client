@@ -73,7 +73,6 @@
     },
     computed: {
       headers(){
-        console.log(this.bedData);
         const headersData = [
           {
             text: "Id",
