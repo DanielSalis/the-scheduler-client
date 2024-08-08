@@ -60,7 +60,6 @@
     },
     computed: {
       headers(){
-        console.log(this.companiesData);
         const headersData = [
           {
             text: "Id",
