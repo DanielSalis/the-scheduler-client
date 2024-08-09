@@ -60,7 +60,6 @@
     },
     computed: {
       headers(){
-        console.log(this.hospitalsData);
         const headersData = [
           {
             text: "id",
