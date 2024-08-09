@@ -60,7 +60,6 @@
     },
     computed: {
       headers(){
-        console.log(this.unityData);
         const headersData = [
           {
             text: "id",
