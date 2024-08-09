@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MeanWorkload.vue renders the component and matches snapshot 1`] = `
+"<div class=\\"mean-workload\\">
+  <v-row-stub tag=\\"div\\" align=\\"center\\" justify=\\"end\\" class=\\"mt-2\\" style=\\"width: 100%;\\">
+    <v-col-stub cols=\\"12\\" sm=\\"6\\" md=\\"5\\" tag=\\"div\\">
+      <v-select-stub errorcount=\\"1\\" errormessages=\\"\\" messages=\\"\\" rules=\\"\\" successmessages=\\"\\" value=\\"\\" appendicon=\\"$dropdown\\" backgroundcolor=\\"\\" hint=\\"Escolha unidades\\" label=\\"Unidade\\" loaderheight=\\"2\\" clearable=\\"true\\" clearicon=\\"$clear\\" type=\\"text\\" valuecomparator=\\"[Function]\\" nodatatext=\\"$vuetify.noDataText\\" items=\\"[object Object],[object Object]\\" itemcolor=\\"primary\\" itemdisabled=\\"disabled\\" itemtext=\\"name\\" itemvalue=\\"id\\" menuprops=\\"[object Object]\\" multiple=\\"true\\"></v-select-stub>
+    </v-col-stub>
+    <v-col-stub cols=\\"12\\" sm=\\"6\\" md=\\"2\\" tag=\\"div\\">
+      <v-select-stub errorcount=\\"1\\" errormessages=\\"\\" messages=\\"\\" rules=\\"\\" successmessages=\\"\\" value=\\"fc46994a-b539-49db-aa02-46fa5765156f\\" appendicon=\\"$dropdown\\" backgroundcolor=\\"\\" hint=\\"Escolha os turnos\\" label=\\"Turno\\" loaderheight=\\"2\\" clearable=\\"true\\" clearicon=\\"$clear\\" type=\\"text\\" valuecomparator=\\"[Function]\\" nodatatext=\\"$vuetify.noDataText\\" items=\\"[object Object],[object Object],[object Object]\\" itemcolor=\\"primary\\" itemdisabled=\\"disabled\\" itemtext=\\"name\\" itemvalue=\\"id\\" menuprops=\\"[object Object]\\" multiple=\\"true\\"></v-select-stub>
+    </v-col-stub>
+    <v-col-stub cols=\\"12\\" sm=\\"6\\" md=\\"2\\" tag=\\"div\\">
+      <v-menu-stub opendelay=\\"0\\" closedelay=\\"0\\" returnvalue=\\"2024-08-08\\" openonclick=\\"true\\" contentclass=\\"\\" maxwidth=\\"auto\\" minwidth=\\"auto\\" nudgebottom=\\"0\\" nudgeleft=\\"0\\" nudgeright=\\"0\\" nudgetop=\\"0\\" nudgewidth=\\"0\\" closeonclick=\\"true\\" maxheight=\\"auto\\" offsety=\\"true\\" origin=\\"top left\\" transition=\\"scale-transition\\">
+        <v-date-picker-stub notitle=\\"true\\" width=\\"290\\" eventcolor=\\"warning\\" firstdayofweek=\\"0\\" localefirstdayofyear=\\"0\\" nexticon=\\"$next\\" nextmontharialabel=\\"$vuetify.datePicker.nextMonthAriaLabel\\" nextyeararialabel=\\"$vuetify.datePicker.nextYearAriaLabel\\" previcon=\\"$prev\\" prevmontharialabel=\\"$vuetify.datePicker.prevMonthAriaLabel\\" prevyeararialabel=\\"$vuetify.datePicker.prevYearAriaLabel\\" scrollable=\\"true\\" showcurrent=\\"true\\" selecteditemstext=\\"$vuetify.datePicker.itemsSelected\\" type=\\"date\\" value=\\"2024-08-08\\">
+          <v-spacer-stub tag=\\"div\\"></v-spacer-stub>
+          <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" text=\\"true\\" type=\\"button\\">
+            Cancel
+          </v-btn-stub>
+          <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" text=\\"true\\" type=\\"button\\">
+            OK
+          </v-btn-stub>
+        </v-date-picker-stub>
+      </v-menu-stub>
+    </v-col-stub>
+    <v-col-stub cols=\\"12\\" sm=\\"6\\" md=\\"2\\" tag=\\"div\\">
+      <v-menu-stub opendelay=\\"0\\" closedelay=\\"0\\" returnvalue=\\"\\" openonclick=\\"true\\" contentclass=\\"\\" maxwidth=\\"auto\\" minwidth=\\"auto\\" nudgebottom=\\"0\\" nudgeleft=\\"0\\" nudgeright=\\"0\\" nudgetop=\\"0\\" nudgewidth=\\"0\\" closeonclick=\\"true\\" maxheight=\\"auto\\" offsety=\\"true\\" origin=\\"top left\\" transition=\\"scale-transition\\">
+        <v-date-picker-stub notitle=\\"true\\" width=\\"290\\" eventcolor=\\"warning\\" firstdayofweek=\\"0\\" localefirstdayofyear=\\"0\\" nexticon=\\"$next\\" nextmontharialabel=\\"$vuetify.datePicker.nextMonthAriaLabel\\" nextyeararialabel=\\"$vuetify.datePicker.nextYearAriaLabel\\" previcon=\\"$prev\\" prevmontharialabel=\\"$vuetify.datePicker.prevMonthAriaLabel\\" prevyeararialabel=\\"$vuetify.datePicker.prevYearAriaLabel\\" scrollable=\\"true\\" showcurrent=\\"true\\" selecteditemstext=\\"$vuetify.datePicker.itemsSelected\\" type=\\"date\\" value=\\"\\">
+          <v-spacer-stub tag=\\"div\\"></v-spacer-stub>
+          <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" text=\\"true\\" type=\\"button\\">
+            Cancel
+          </v-btn-stub>
+          <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" text=\\"true\\" type=\\"button\\">
+            OK
+          </v-btn-stub>
+        </v-date-picker-stub>
+      </v-menu-stub>
+    </v-col-stub>
+    <v-col-stub cols=\\"12\\" sm=\\"12\\" md=\\"1\\" tag=\\"div\\" style=\\"text-align: center;\\">
+      <div>
+        <v-btn-stub color=\\"primary\\" dark=\\"true\\" tag=\\"button\\" activeclass=\\"\\" large=\\"true\\" block=\\"true\\" type=\\"button\\" center=\\"\\">
+          Buscar
+        </v-btn-stub>
+      </div>
+    </v-col-stub>
+  </v-row-stub>
+  <v-card-stub loaderheight=\\"4\\" tag=\\"div\\" flat=\\"true\\" class=\\"mt-5 px-4 py-4\\">
+    <vueapexcharts-stub options=\\"[object Object]\\" type=\\"bar\\" series=\\"[object Object]\\" width=\\"100%\\" height=\\"550\\"></vueapexcharts-stub>
+  </v-card-stub>
+  <v-btn-stub color=\\"primary\\" tag=\\"button\\" activeclass=\\"\\" type=\\"button\\" id=\\"export-button\\">
+    Exportar
+  </v-btn-stub>
+</div>"
+`;

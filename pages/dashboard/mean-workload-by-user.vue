@@ -376,7 +376,10 @@
         }
       },
       async performFilter() {
+        const test = this.data;
+        console.log(test);
         this.chart = false;
+        debugger;
         try {
           const params = {
             start_date: this.filter.start,

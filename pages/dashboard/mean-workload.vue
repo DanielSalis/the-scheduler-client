@@ -175,6 +175,7 @@
     </v-card>
 
     <v-btn
+      id="export-button"
       color="primary"
       @click="exportToPdf()"
     >
