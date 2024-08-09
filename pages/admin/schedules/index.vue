@@ -50,7 +50,6 @@
     },
     computed: {
       headers(){
-        console.log(this.schedulesData);
         const headersData = [
           {
             text: "id",
