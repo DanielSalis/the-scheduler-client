@@ -70,27 +70,6 @@ exports[`MeanWorkloadByUser.vue renders the component and matches snapshot 1`] =
           <div type=\\"line\\" height=\\"550\\" options=\\"[object Object]\\" series=\\"[object Object]\\"></div>
         </v-expansion-panel-content-stub>
       </v-expansion-panel-stub>
-      <v-expansion-panel-stub flat=\\"\\">
-        <v-expansion-panel-header-stub expandicon=\\"$expand\\" class=\\"text-h6 ml-3 mean-workload-by-user__user-title\\">
-          <v-row-stub tag=\\"div\\" style=\\"display: flex; flex-direction: row; justify-content: space-between;\\">
-            <h6 style=\\"width: 33%;\\">
-              daniel
-            </h6>
-            <h6 style=\\"width: 33%;\\">
-              daniel@mail.com
-            </h6>
-            <div class=\\"mr-4\\">
-              <h6>
-                115 minutos
-              </h6>
-              <v-chip-stub color=\\"yellow\\" activeclass=\\"\\" tag=\\"span\\" active=\\"true\\" closeicon=\\"$delete\\" closelabel=\\"$vuetify.close\\" filtericon=\\"$complete\\" style=\\"width: 100%; height: 5px;\\"></v-chip-stub>
-            </div>
-          </v-row-stub>
-        </v-expansion-panel-header-stub>
-        <v-expansion-panel-content-stub>
-          <div type=\\"line\\" height=\\"550\\" options=\\"[object Object]\\" series=\\"[object Object]\\"></div>
-        </v-expansion-panel-content-stub>
-      </v-expansion-panel-stub>
     </v-expansion-panels-stub>
     <div class=\\"my-4\\">
       <div style=\\"display: flex; align-items: center;\\">

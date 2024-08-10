@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
-import MeanWorkload from '../mean-workload.vue' // Adjust the path accordingly
+import MeanWorkload from '../mean-workload.vue'
 import VueApexCharts from 'vue-apexcharts'
 import gContainer from '~/components/g-container.vue'
 import html2pdf from 'html2pdf.js'
@@ -53,6 +53,11 @@ describe('MeanWorkload.vue', () => {
       $refs: {
         page: { $el: document.createElement('div') },
       },
+      HTMLCanvasElement: {
+        prototype: {
+          getContext: jest.fn()
+        }
+      },
       html2pdf
     },
     stubs: {
@@ -65,17 +70,4 @@ describe('MeanWorkload.vue', () => {
     expect(wrapper.html()).toMatchSnapshot()
   })
 
-
-  // it('exports to PDF', async () => {
-  //   // Spy on the exportToPdf method
-  //   const exportToPdfSpy = jest.spyOn(wrapper.vm, 'exportToPdf')
-
-  //   // Find the button by its text
-  //   const exportButton = wrapper.find('#export-button')
-  //   expect(exportButton.exists()).toBe(true)
-  //   expect(exportButton.text()).toBe('Exportar')
-
-  //   // Trigger a click event
-  //   await exportButton.trigger('click')
-  // })
 })
