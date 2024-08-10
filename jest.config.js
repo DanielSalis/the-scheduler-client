@@ -27,5 +27,5 @@ module.exports = {
     'text'
   ],
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/test/jest-setup.js']
+  setupFilesAfterEnv: ['jest-canvas-mock', '<rootDir>/test/jest-setup.js']
 }
